@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "@21st-dev/magic": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@21st-dev/magic@latest",
+        "API_KEY=\"cf0071667bc38d8065363015e88e672d17095ddba0a4d6a61bfe42cbba72ec52\""
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "21st_magic_component_inspiration",
+        "21st_magic_component_builder"
+      ],
+      "disabledTools": [
+        "21st_magic_component_builder",
+        "21st_magic_component_refiner"
+      ]
+    },"gsap-master": {
+      "args": [
+        "bruzethegreat-gsap-master-mcp-server@latest"
+      ],
+      "command": "npx"
+    }
+  }
+}

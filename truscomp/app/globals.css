@@ -1,0 +1,256 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --base-50: oklch(0.985 0 0);
+  --base-100: oklch(0.9702 0 0);
+  --base-200: oklch(0.922 0 0);
+  --base-300: oklch(0.87 0 0);
+  --base-400: oklch(0.708 0 0);
+  --base-500: oklch(0.556 0 0);
+  --base-600: oklch(0.439 0 0);
+  --base-700: oklch(0.371 0 0);
+  --base-800: oklch(0.269 0 0);
+  --base-900: oklch(0.205 0 0);
+  --base-950: oklch(0.145 0 0);
+  --base-1000: oklch(0.106 0 0);
+
+  --primary-50: oklch(0.985 0.0155 76.71);
+  --primary-100: oklch(0.96 0.0413 75.91);
+  --primary-200: oklch(0.9199 0.0828 74.95);
+  --primary-300: oklch(0.8721 0.1282 71.92);
+  --primary-400: oklch(0.8156 0.1691 69.72);
+  --primary-500: oklch(0.7788 0.1725 66.53);
+  --primary-600: oklch(0.6627 0.167 64.65);
+  --primary-700: oklch(0.5545 0.1446 63.11);
+  --primary-800: oklch(0.4723 0.126 60.43);
+  --primary-900: oklch(0.4128 0.1022 59.16);
+  --primary-950: oklch(0.2767 0.0695 57.94);
+  --primary-1000: oklch(0.1881 0.048 56.76);
+
+  --background: var(--color-white);
+  --foreground: var(--base-800);
+  --card: var(--color-white);
+  --card-foreground: var(--base-800);
+  --popover: var(--color-white);
+  --popover-foreground: var(--base-800);
+  --primary: var(--primary-500);
+  --primary-foreground: var(--color-black);
+  --secondary: var(--base-100);
+  --secondary-foreground: var(--base-800);
+  --muted: var(--base-50);
+  --muted-foreground: var(--base-600);
+  --accent: var(--base-50);
+  --accent-foreground: var(--base-800);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: var(--base-200);
+  --input: var(--base-300);
+  --ring: var(--primary-500);
+  --chart-1: var(--primary-500);
+  --chart-2: var(--primary-200);
+  --chart-3: var(--primary-400);
+  --chart-4: var(--primary-300);
+  --chart-5: var(--primary-100);
+  --radius: 1rem;
+  --sidebar: var(--base-100);
+  --sidebar-foreground: var(--base-800);
+  --sidebar-primary: var(--primary-500);
+  --sidebar-primary-foreground: var(--color-black);
+  --sidebar-accent: var(--base-200);
+  --sidebar-accent-foreground: var(--base-800);
+  --sidebar-border: var(--base-200);
+  --sidebar-ring: var(--primary-500);
+  --cream: var(--primary-50);
+}
+
+@theme inline {
+  --color-base-50: var(--base-50);
+  --color-base-100: var(--base-100);
+  --color-base-200: var(--base-200);
+  --color-base-300: var(--base-300);
+  --color-base-400: var(--base-400);
+  --color-base-500: var(--base-500);
+  --color-base-600: var(--base-600);
+  --color-base-700: var(--base-700);
+  --color-base-800: var(--base-800);
+  --color-base-900: var(--base-900);
+  --color-base-950: var(--base-950);
+  --color-base-1000: var(--base-1000);
+
+  --color-primary-50: var(--primary-50);
+  --color-primary-100: var(--primary-100);
+  --color-primary-200: var(--primary-200);
+  --color-primary-300: var(--primary-300);
+  --color-primary-400: var(--primary-400);
+  --color-primary-500: var(--primary-500);
+  --color-primary-600: var(--primary-600);
+  --color-primary-700: var(--primary-700);
+  --color-primary-800: var(--primary-800);
+  --color-primary-900: var(--primary-900);
+  --color-primary-950: var(--primary-950);
+  --color-primary-1000: var(--primary-1000);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-cream: var(--cream);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html,
+  body {
+    @apply bg-background text-foreground;
+    height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* Prevent body scroll when dashboard is active */
+/* Lexical Table Styles - Minimal & Professional */
+.TrusCompTable {
+  display: table !important;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  border: 2px solid #000 !important;
+}
+
+.TrusCompTable tr {
+  display: table-row !important;
+}
+
+.TrusCompTableCellHeader {
+  display: table-cell !important;
+  border: 1px solid #000 !important;
+  padding: 12px 16px;
+  background-color: #f5f5f5;
+  font-weight: bold;
+  text-align: left;
+  min-width: 120px;
+  min-height: 50px;
+}
+
+.TrusCompTableCell {
+  display: table-cell !important;
+  border: 1px solid #000 !important;
+  padding: 12px 16px;
+  background-color: #fff;
+  min-width: 120px;
+  min-height: 50px;
+  vertical-align: top;
+}
+
+
+
+/* Make cells editable */
+.TrusCompTableCell p,
+.TrusCompTableCellHeader p {
+  min-height: 40px;
+}
+
+/* Lexical Image Styles */
+.TrusCompEditor img {
+  @apply max-w-full h-auto rounded-3xl shadow-2xl my-10 transition-transform;
+}
+
+.prose ul {
+  @apply list-disc ml-6 mb-4;
+}
+
+.prose ol {
+  @apply list-decimal ml-6 mb-4;
+}
+
+.prose h1 {
+  @apply text-4xl font-bold mb-6;
+}
+
+.prose h2 {
+  @apply text-3xl font-bold mb-4 mt-8;
+}
+
+.prose h3 {
+  @apply text-2xl font-bold mb-3 mt-6;
+}
+
+.editor-placeholder {
+  @apply text-muted-foreground absolute top-3 left-4 pointer-events-none;
+}
+
+/* Custom styles for tables in the editor */
+.editor-table {
+  @apply border-collapse border border-border w-full my-4;
+}
+
+.editor-tableCell {
+  @apply border border-border p-2 min-w-[100px] relative;
+}
+
+.editor-tableCellHeader {
+  @apply border border-border p-2 bg-muted font-bold min-w-[100px] relative;
+}
+
+.editor-paragraph {
+  @apply mb-2;
+}

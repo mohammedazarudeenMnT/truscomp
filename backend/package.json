@@ -1,0 +1,27 @@
+{
+  "name": "truscomp-backend",
+  "version": "1.0.0",
+  "description": "Backend for TrusComp",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "better-auth": "^1.4.7",
+    "cloudinary": "^2.8.0",
+    "cors": "^2.8.5",
+    "culori": "^4.0.2",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "mongodb": "6.21.0",
+    "mongoose": "^8.20.3",
+    "nodemailer": "^7.0.11"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
