@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 
-const highlights = [
+const defaultHighlights = [
     "50+ Years Combined Experience",
     "Industry-Leading Expertise",
     "Innovative Solutions",
@@ -12,7 +12,23 @@ const highlights = [
     "Proven Track Record"
 ];
 
-export default function TeamLegacySection() {
+interface TeamLegacySectionProps {
+    data?: {
+        title?: string;
+        description?: string;
+        buttonText?: string;
+        buttonHref?: string;
+        highlights?: string[];
+    } | null;
+}
+
+export default function TeamLegacySection({ data }: TeamLegacySectionProps) {
+    const title = data?.title || "A Legacy of Excellence";
+    const description = data?.description || "With a legacy of excellence and a team of seasoned leaders, TrusComp delivers unmatched service and expertise. Join our team of compliance experts and be part of transforming how businesses approach regulatory challenges.";
+    const buttonText = data?.buttonText || "Join Our Team";
+    const buttonHref = data?.buttonHref || "/careers";
+    const highlights = data?.highlights || defaultHighlights;
+
     return (
         <section className="py-32">
             <div className="container mx-auto">
@@ -22,16 +38,14 @@ export default function TeamLegacySection() {
                             {/* Left content */}
                             <div className="md:w-1/2">
                                 <h2 className="mb-4 text-2xl font-bold md:text-3xl">
-                                    A Legacy of Excellence
+                                    {title}
                                 </h2>
                                 <p className="text-muted-foreground mb-6">
-                                    With a legacy of excellence and a team of seasoned leaders, TrusComp delivers
-                                    unmatched service and expertise. Join our team of compliance experts and be part
-                                    of transforming how businesses approach regulatory challenges.
+                                    {description}
                                 </p>
                                 <Button size="lg" asChild>
-                                    <Link href="/careers">
-                                        Join Our Team <ArrowRight className="size-4 ml-2" />
+                                    <Link href={buttonHref}>
+                                        {buttonText} <ArrowRight className="size-4 ml-2" />
                                     </Link>
                                 </Button>
                             </div>

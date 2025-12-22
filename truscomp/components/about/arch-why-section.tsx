@@ -2,13 +2,13 @@
 
 import { GridPattern } from "@/components/ui/grid-pattern";
 
-const stats = [
+const defaultStats = [
   { value: "100+", label: "Trusted Clients" },
   { value: "99.9%", label: "Uptime Guarantee" },
   { value: "24/7", label: "Support Available" },
 ];
 
-const reasons = [
+const defaultReasons = [
   {
     title: "Proven Expertise",
     description:
@@ -26,7 +26,27 @@ const reasons = [
   },
 ];
 
-export default function ArchWhySection() {
+interface ArchWhySectionProps {
+  data?: {
+    title?: string;
+    subtitle?: string;
+    stats?: Array<{
+      value: string;
+      label: string;
+    }>;
+    reasons?: Array<{
+      title: string;
+      description: string;
+    }>;
+  } | null;
+}
+
+export default function ArchWhySection({ data }: ArchWhySectionProps) {
+  const title = data?.title || "Why Choose TrusComp?";
+  const subtitle = data?.subtitle || "Our technology platform delivers unmatched value through proven expertise and innovation";
+  const stats = data?.stats || defaultStats;
+  const reasons = data?.reasons || defaultReasons;
+
   return (
     <section className="py-24 md:py-32 bg-background relative overflow-hidden">
       {/* Grid Pattern Background */}
@@ -48,11 +68,10 @@ export default function ArchWhySection() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Why Choose TrusComp?
+              {title}
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Our technology platform delivers unmatched value through proven
-              expertise and innovation
+              {subtitle}
             </p>
           </div>
 

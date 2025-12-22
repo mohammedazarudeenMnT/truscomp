@@ -4,9 +4,8 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { LucideIcon } from "lucide-react";
-import * as Icons from "lucide-react";
 import { GridPattern } from "@/components/ui/grid-pattern";
+import { getIconComponent } from "@/lib/icons";
 
 const IMG_PADDING = 12;
 
@@ -111,9 +110,9 @@ export default function ParallaxHero({
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             {buttons.map((button, index) => {
-              const Icon = button.icon
-                ? (Icons[button.icon as keyof typeof Icons] as LucideIcon)
-                : undefined;
+              const IconComponent = button.icon
+                ? getIconComponent(button.icon)
+                : null;
               const isOutline = button.variant === "outline";
 
               return (
@@ -129,7 +128,7 @@ export default function ParallaxHero({
                   variant="default"
                 >
                   <Link href={button.href} className="flex items-center gap-2">
-                    {Icon && <Icon className="h-5 w-5" />}
+                    {IconComponent && <IconComponent className="h-5 w-5" />}
                     {button.text}
                   </Link>
                 </Button>

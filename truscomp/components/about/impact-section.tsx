@@ -3,32 +3,64 @@
 import { Star, ThumbsUp, Users, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GridPattern } from "@/components/ui/grid-pattern";
+import { getIconComponent } from "@/lib/icons";
 
-const stats = [
+const defaultStats = [
   {
     name: "7+ Years of Excellence",
     description:
       "Delivering customized compliance solutions across diverse industries",
-    icon: Star,
+    icon: "Star",
     className: "md:col-span-2 bg-primary/5 border-primary/10",
   },
   {
     name: "60+ Compliance Specialists",
     description:
       "A dedicated team committed to providing top-tier service and support.",
-    icon: ThumbsUp,
+    icon: "ThumbsUp",
     className: "md:col-span-1 bg-primary/10 border-primary/20",
   },
   {
     name: "100+ Clients",
     description:
       "Trusted by industry leaders, including Blue Star, Reckitt Benckiser, and Ola Electric, to ensure flawless compliance management.",
-    icon: Users,
+    icon: "Users",
     className: "md:col-span-3 bg-primary/5 border-primary/10",
   },
 ];
 
-export default function ImpactSection() {
+interface ImpactSectionProps {
+  data?: {
+    title?: string;
+    subtitle?: string;
+    stats?: Array<{
+      title: string;
+      description: string;
+      icon?: string;
+    }>;
+  } | null;
+}
+
+export default function ImpactSection({ data }: ImpactSectionProps) {
+  const title = data?.title || "Our Impact";
+  const subtitle =
+    data?.subtitle ||
+    "Measuring our success through the value we deliver to our clients and the industry.";
+
+  const stats =
+    data?.stats?.map((stat, index) => {
+      const IconComponent = getIconComponent(stat.icon) || Star;
+      return {
+        name: stat.title,
+        description: stat.description,
+        icon: IconComponent,
+        className: defaultStats[index % defaultStats.length].className,
+      };
+    }) ||
+    defaultStats.map((s) => ({
+      ...s,
+      icon: getIconComponent(s.icon) || Star,
+    }));
   return (
     <section className="py-20 lg:py-32 bg-background relative overflow-hidden">
       {/* Grid Pattern Background */}
@@ -50,12 +82,9 @@ export default function ImpactSection() {
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-2xl">
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-              Our Impact
+              {title}
             </h2>
-            <p className="text-lg text-muted-foreground">
-              Measuring our success through the value we deliver to our clients
-              and the industry.
-            </p>
+            <p className="text-lg text-muted-foreground">{subtitle}</p>
           </div>
         </div>
 

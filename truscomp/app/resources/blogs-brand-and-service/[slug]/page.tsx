@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 import BlogDetailClient from "./BlogDetailClient";
 import { axiosInstance } from "@/lib/api";
 
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 interface BlogPost {
   _id: string;
   title: string;
@@ -22,7 +26,11 @@ interface BlogPost {
 async function getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
     const response = await axiosInstance.get(`/api/blog/slug/${slug}`, {
-      headers: { "Cache-Control": "no-cache" },
+      headers: { 
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
+      },
     });
     return response.data.success ? response.data.data : null;
   } catch (error) {
@@ -38,7 +46,11 @@ async function getRelatedPosts(
   try {
     const response = await axiosInstance.get("/api/blog", {
       params: { category, limit: 3 },
-      headers: { "Cache-Control": "no-cache" },
+      headers: { 
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
+      },
     });
     return response.data.success
       ? response.data.data.filter((p: BlogPost) => p.slug !== currentSlug).slice(0, 2)

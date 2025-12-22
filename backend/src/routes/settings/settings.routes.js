@@ -20,6 +20,19 @@ router.get("/verify-email-change", verifyEmailChange);
 router.get("/", requireAdmin, getSettings);
 router.put("/general", requireAdmin, updateGeneralSettings);
 
+// Public route for getting company logo and basic info
+router.get("/public", async (req, res) => {
+  try {
+    const { getPublicSettings } = await import("../../controllers/settings/settings.controller.js");
+    return getPublicSettings(req, res);
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch public settings"
+    });
+  }
+});
+
 // Email configuration routes
 router.get("/email-configuration", requireAdmin, getEmailConfiguration);
 router.post("/email-configuration", requireAdmin, updateEmailConfiguration);

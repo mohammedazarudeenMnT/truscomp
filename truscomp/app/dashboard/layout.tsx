@@ -10,6 +10,8 @@ import {
   LogOut,
   Layers,
   BookOpen,
+  Home,
+  Info,
 } from "lucide-react";
 
 export default function AdminLayout({
@@ -37,6 +39,18 @@ export default function AdminLayout({
       isActive: pathname === "/dashboard/settings",
     },
     {
+      label: "Home Page",
+      href: "/dashboard/content/home",
+      icon: <Home className="w-5 h-5" />,
+      isActive: pathname.startsWith("/dashboard/content/home"),
+    },
+    {
+      label: "About Pages",
+      href: "/dashboard/content/about",
+      icon: <Info className="w-5 h-5" />,
+      isActive: pathname.startsWith("/dashboard/content/about"),
+    },
+    {
       label: "Services",
       href: "/dashboard/content/services",
       icon: <Layers className="w-5 h-5" />,
@@ -48,15 +62,13 @@ export default function AdminLayout({
       icon: <BookOpen className="w-5 h-5" />,
       isActive: pathname.startsWith("/dashboard/content/blogs"),
     },
-    // Commmented out missing routes for now to avoid 404s
-    /*
-    {
-      label: "Manage Members",
-      href: "/dashboard/members",
-      icon: <Users className="w-5 h-5" />,
-      isActive: pathname === "/dashboard/members",
-    },
-    */
+   {
+    label: "Testimonials",
+    href: "/dashboard/content/testimonials",
+    icon: <BookOpen className="w-5 h-5" />,
+    isActive: pathname.startsWith("/dashboard/content/testimonials"),
+   }
+   ,
     {
       label: "Logout",
       href: "/logout",

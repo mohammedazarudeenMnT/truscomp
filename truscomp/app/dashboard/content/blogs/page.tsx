@@ -3,16 +3,16 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { 
-  Plus, 
-  Pencil, 
-  Trash2, 
-  Search, 
-  Loader2, 
-  FileText, 
-  LayoutGrid, 
-  List, 
-  CheckCircle2, 
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  Search,
+  Loader2,
+  FileText,
+  LayoutGrid,
+  List,
+  CheckCircle2,
   Clock,
   Eye,
   Star,
@@ -63,10 +63,33 @@ export default function BlogDashboardPage() {
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [filterCategory, setFilterCategory] = useState<string>("all");
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (search = "", status = "all", category = "all") => {
     try {
       setIsLoading(true);
-      const response = await axiosInstance.get("/api/blog/admin/all");
+      const params: any = {
+        page: 1,
+        limit: 100,
+      };
+
+      // Add search parameter
+      if (search) {
+        params.search = search;
+      }
+
+      // Add status filter
+      if (status !== "all") {
+        params.status = status;
+      }
+
+      // Add category filter
+      if (category !== "all") {
+        params.category = category;
+      }
+
+      const response = await axiosInstance.get("/api/blog", {
+        params,
+      });
+
       if (response.data.success) {
         setPosts(response.data.data);
       }
@@ -79,8 +102,8 @@ export default function BlogDashboardPage() {
   };
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    fetchPosts(searchTerm, filterStatus, filterCategory);
+  }, [searchTerm, filterStatus, filterCategory]);
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this post?")) return;
@@ -89,24 +112,17 @@ export default function BlogDashboardPage() {
       const response = await axiosInstance.delete(`/api/blog/${id}`);
       if (response.data.success) {
         toast.success("Post deleted successfully");
-        fetchPosts();
+        fetchPosts(searchTerm, filterStatus, filterCategory);
       }
     } catch {
       toast.error("Failed to delete post");
     }
   };
 
-  const categories = [...new Set(posts.map(p => p.category).filter(Boolean))];
+  const categories = [...new Set(posts.map((p) => p.category).filter(Boolean))];
 
-  const filteredPosts = posts.filter((post) => {
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = filterStatus === "all" || post.status === filterStatus;
-    const matchesCategory = filterCategory === "all" || post.category === filterCategory;
-    return matchesSearch && matchesStatus && matchesCategory;
-  });
-
-  const publishedCount = posts.filter(p => p.status === "published").length;
-  const draftCount = posts.filter(p => p.status === "draft").length;
+  const publishedCount = posts.filter((p) => p.status === "published").length;
+  const draftCount = posts.filter((p) => p.status === "draft").length;
 
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString("en-US", {
@@ -140,7 +156,7 @@ export default function BlogDashboardPage() {
       />
 
       {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-10">
         <Card className="bg-card">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
@@ -187,7 +203,9 @@ export default function BlogDashboardPage() {
                 <Star className="w-5 h-5 text-violet-500" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{posts.filter(p => p.isFeatured).length}</p>
+                <p className="text-2xl font-bold">
+                  {posts.filter((p) => p.isFeatured).length}
+                </p>
                 <p className="text-xs text-muted-foreground">Featured</p>
               </div>
             </div>
@@ -196,8 +214,8 @@ export default function BlogDashboardPage() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between bg-card border border-border rounded-xl p-4">
-        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-card border border-border rounded-xl p-4 mt-8">
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
           <div className="relative w-full sm:w-72">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -225,7 +243,9 @@ export default function BlogDashboardPage() {
               <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
                 {categories.map((cat) => (
-                  <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  <SelectItem key={cat} value={cat}>
+                    {cat}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -254,7 +274,7 @@ export default function BlogDashboardPage() {
         <div className="flex justify-center items-center py-20">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </div>
-      ) : filteredPosts.length === 0 ? (
+      ) : posts.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-16">
             <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
@@ -262,18 +282,20 @@ export default function BlogDashboardPage() {
             </div>
             <h3 className="text-lg font-semibold mb-2">No articles found</h3>
             <p className="text-sm text-muted-foreground mb-4 text-center">
-              {searchTerm || filterStatus !== "all" || filterCategory !== "all" 
-                ? "Try adjusting your filters" 
+              {searchTerm || filterStatus !== "all" || filterCategory !== "all"
+                ? "Try adjusting your filters"
                 : "Get started by creating your first article"}
             </p>
-            {!searchTerm && filterStatus === "all" && filterCategory === "all" && (
-              <Link href="/dashboard/content/blogs/new">
-                <Button>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create Article
-                </Button>
-              </Link>
-            )}
+            {!searchTerm &&
+              filterStatus === "all" &&
+              filterCategory === "all" && (
+                <Link href="/dashboard/content/blogs/new">
+                  <Button>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Create Article
+                  </Button>
+                </Link>
+              )}
           </CardContent>
         </Card>
       ) : viewMode === "table" ? (
@@ -289,7 +311,7 @@ export default function BlogDashboardPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredPosts.map((post) => (
+              {posts.map((post) => (
                 <TableRow key={post._id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
@@ -316,18 +338,28 @@ export default function BlogDashboardPage() {
                           )}
                         </div>
                         {post.subtitle && (
-                          <p className="text-sm text-muted-foreground truncate">{post.subtitle}</p>
+                          <p className="text-sm text-muted-foreground truncate">
+                            {post.subtitle}
+                          </p>
                         )}
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline">{post.category || "Uncategorized"}</Badge>
+                    <Badge variant="outline">
+                      {post.category || "Uncategorized"}
+                    </Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge 
-                      variant={post.status === "published" ? "default" : "secondary"}
-                      className={post.status === "published" ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" : ""}
+                    <Badge
+                      variant={
+                        post.status === "published" ? "default" : "secondary"
+                      }
+                      className={
+                        post.status === "published"
+                          ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
+                          : ""
+                      }
                     >
                       {post.status}
                     </Badge>
@@ -342,13 +374,16 @@ export default function BlogDashboardPage() {
                           <Pencil className="w-4 h-4" />
                         </Button>
                       </Link>
-                      <Link href={`/resources/blogs-brand-and-service/${post._id}`} target="_blank">
+                      <Link
+                        href={`/resources/blogs-brand-and-service/${post._id}`}
+                        target="_blank"
+                      >
                         <Button variant="ghost" size="icon" title="View">
                           <Eye className="w-4 h-4" />
                         </Button>
                       </Link>
-                      <Button 
-                        variant="ghost" 
+                      <Button
+                        variant="ghost"
                         size="icon"
                         onClick={() => handleDelete(post._id)}
                         className="text-destructive hover:text-destructive hover:bg-destructive/10"
@@ -365,8 +400,11 @@ export default function BlogDashboardPage() {
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {filteredPosts.map((post) => (
-            <Card key={post._id} className="group overflow-hidden hover:shadow-md transition-shadow">
+          {posts.map((post) => (
+            <Card
+              key={post._id}
+              className="group overflow-hidden hover:shadow-md transition-shadow"
+            >
               <div className="aspect-video relative bg-muted">
                 {post.featuredImage?.url ? (
                   <Image
@@ -381,9 +419,15 @@ export default function BlogDashboardPage() {
                   </div>
                 )}
                 <div className="absolute top-3 left-3 flex gap-2">
-                  <Badge 
-                    variant={post.status === "published" ? "default" : "secondary"}
-                    className={post.status === "published" ? "bg-emerald-500 text-white" : ""}
+                  <Badge
+                    variant={
+                      post.status === "published" ? "default" : "secondary"
+                    }
+                    className={
+                      post.status === "published"
+                        ? "bg-emerald-500 text-white"
+                        : ""
+                    }
                   >
                     {post.status}
                   </Badge>
@@ -408,10 +452,15 @@ export default function BlogDashboardPage() {
                   {post.title}
                 </h3>
                 {post.subtitle && (
-                  <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{post.subtitle}</p>
+                  <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+                    {post.subtitle}
+                  </p>
                 )}
                 <div className="flex gap-2 pt-2 border-t border-border">
-                  <Link href={`/dashboard/content/blogs/${post._id}`} className="flex-1">
+                  <Link
+                    href={`/dashboard/content/blogs/${post._id}`}
+                    className="flex-1"
+                  >
                     <Button variant="outline" size="sm" className="w-full">
                       <Pencil className="w-3.5 h-3.5 mr-2" />
                       Edit

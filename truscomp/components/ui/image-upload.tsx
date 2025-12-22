@@ -113,7 +113,6 @@ export function ImageUpload({
           <div className="text-center">
             <p className="text-sm font-medium">Click to select</p>
             <p className="text-xs text-muted-foreground">or drag and drop file here</p>
-            <p className="text-xs text-muted-foreground mt-1">PNG, JPG, GIF up to 10MB</p>
           </div>
         </div>
       ) : (

@@ -7,27 +7,64 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { GridPattern } from "@/components/ui/grid-pattern";
+import { getIconComponent } from "@/lib/icons";
 
-const features = [
+const defaultFeatures = [
   {
     title: "Innovation",
     description:
       "Leveraging cutting-edge technology to reshape compliance management.",
-    icon: Lightbulb,
+    icon: "Lightbulb",
   },
   {
     title: "Expertise",
     description: "Deep domain knowledge in labor law and regulatory adherence.",
-    icon: ShieldCheck,
+    icon: "ShieldCheck",
   },
   {
     title: "Commitment",
     description: "Unwavering commitment to excellence and client success.",
-    icon: HeartHandshake,
+    icon: "HeartHandshake",
   },
 ];
 
-export default function WhyTrusCompSection() {
+interface WhyTrusCompSectionProps {
+  data?: {
+    title?: string;
+    description?: string;
+    highlights?: string[];
+    features?: Array<{
+      title: string;
+      description: string;
+      icon?: string;
+    }>;
+  } | null;
+}
+
+export default function WhyTrusCompSection({ data }: WhyTrusCompSectionProps) {
+  const title = data?.title || "Why TrusComp?";
+  const description =
+    data?.description ||
+    "We are more than a compliance partner; we are your ally in staying ahead of the curve. Join us in reshaping compliance management, leveraging innovation, expertise, and unwavering commitment to excellence.";
+  const highlights = data?.highlights || [
+    "Pan-India Presence",
+    "Technology Driven",
+    "Client-Centric Approach",
+  ];
+  const features =
+    data?.features?.map((f) => {
+      const IconComponent = getIconComponent(f.icon) || Lightbulb;
+      return {
+        title: f.title,
+        description: f.description,
+        icon: IconComponent,
+      };
+    }) ||
+    defaultFeatures.map((f) => ({
+      ...f,
+      icon: getIconComponent(f.icon) || Lightbulb,
+    }));
+
   return (
     <section className="py-20 lg:py-32 bg-muted/30 relative overflow-hidden">
       {/* Grid Pattern Background */}
@@ -49,21 +86,14 @@ export default function WhyTrusCompSection() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-              Why TrusComp?
+              {title}
             </h2>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              We are more than a compliance partner; we are your ally in staying
-              ahead of the curve. Join us in reshaping compliance management,
-              leveraging innovation, expertise, and unwavering commitment to
-              excellence.
+              {description}
             </p>
 
             <ul className="space-y-4">
-              {[
-                "Pan-India Presence",
-                "Technology Driven",
-                "Client-Centric Approach",
-              ].map((item, i) => (
+              {highlights.map((item, i) => (
                 <li
                   key={i}
                   className="flex items-center gap-3 text-lg font-medium"

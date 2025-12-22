@@ -35,12 +35,15 @@ export default function BlogDetailClient({
   const formattedRelatedPosts = relatedPosts.map((p) => ({
     tag: p.category || "General",
     date: p.publishedAt
-      ? new Date(p.publishedAt).toLocaleDateString()
+      ? new Date(p.publishedAt).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
       : "Draft",
     title: p.title,
     description: p.description || p.subtitle || "",
     href: `/resources/blogs-brand-and-service/${p.slug}`,
-    readTime: "5 min read",
     imageUrl: getImageUrl(p),
   }));
 
@@ -59,7 +62,6 @@ export default function BlogDetailClient({
             })
           : "Draft"
       }
-      readTime="5 min read"
       featuredImage={getImageUrl(post)}
       content={post.content}
       relatedPosts={formattedRelatedPosts}

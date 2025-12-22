@@ -3,7 +3,7 @@
 import { Check } from "lucide-react";
 import { GridPattern } from "@/components/ui/grid-pattern";
 
-const benefits = [
+const defaultBenefits = [
   {
     title: "Enhanced Efficiency",
     description:
@@ -26,7 +26,21 @@ const benefits = [
   },
 ];
 
-export default function ArchBenefitsSection() {
+interface ArchBenefitsSectionProps {
+  data?: {
+    benefitsTitle?: string;
+    benefitsSubtitle?: string;
+    benefits?: Array<{
+      title: string;
+      description: string;
+    }>;
+  } | null;
+}
+
+export default function ArchBenefitsSection({ data }: ArchBenefitsSectionProps) {
+  const title = data?.benefitsTitle || "Benefits of Our Technology";
+  const subtitle = data?.benefitsSubtitle || "Discover how our advanced software architecture delivers tangible value to your business";
+  const benefits = data?.benefits || defaultBenefits;
   return (
     <section className="py-24 md:py-32 bg-muted/30 relative overflow-hidden">
       {/* Grid Pattern Background */}
@@ -48,11 +62,10 @@ export default function ArchBenefitsSection() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Benefits of Our Technology
+              {title}
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Discover how our advanced software architecture delivers tangible
-              value to your business
+              {subtitle}
             </p>
           </div>
 

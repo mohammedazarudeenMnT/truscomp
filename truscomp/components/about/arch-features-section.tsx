@@ -1,48 +1,80 @@
 "use client";
 
-import { Cloud, Layers, Link2, Shield, Users, Zap } from "lucide-react";
+import { Cloud } from "lucide-react";
 import { GridPattern } from "@/components/ui/grid-pattern";
+import { getIconComponent } from "@/lib/icons";
 
-const features = [
+const defaultFeatures = [
   {
-    icon: Cloud,
+    icon: "Cloud",
     title: "Cloud-Based Infrastructure",
     description:
       "Scalable and resilient cloud infrastructure ensuring high availability and seamless access to compliance tools anytime, anywhere with robust backup systems.",
   },
   {
-    icon: Layers,
+    icon: "Layers",
     title: "Multi-Tier Architecture",
     description:
       "Layered system design with dedicated layers for optimal performance and future modularity, simplifying maintenance and enabling seamless enhancements.",
   },
   {
-    icon: Link2,
+    icon: "Link2",
     title: "Open API Integration",
     description:
       "Seamless integration with existing HRM, ERP, and financial tools, providing unified operations and flexible connectivity for easy adoption.",
   },
   {
-    icon: Shield,
+    icon: "Shield",
     title: "Data Security",
     description:
       "Industry-standard encryption, multi-factor authentication, role-based access control, and continuous security measures to protect your data.",
   },
   {
-    icon: Users,
+    icon: "Users",
     title: "User Access Management",
     description:
       "Role-based access control system with granular permissions and enhanced oversight through clear audit trails for all activities.",
   },
   {
-    icon: Zap,
+    icon: "Zap",
     title: "Scalability",
     description:
       "Built to grow with your business, offering consistent performance and future-ready design for evolving business needs.",
   },
 ];
 
-export default function ArchFeaturesSection() {
+interface ArchFeaturesSectionProps {
+  data?: {
+    featuresTitle?: string;
+    featuresSubtitle?: string;
+    features?: Array<{
+      title: string;
+      description: string;
+      icon?: string;
+    }>;
+  } | null;
+}
+
+export default function ArchFeaturesSection({
+  data,
+}: ArchFeaturesSectionProps) {
+  const title = data?.featuresTitle || "Key Features";
+  const subtitle =
+    data?.featuresSubtitle ||
+    "Explore the key technological features that make our platform a leader in compliance management";
+  const features =
+    data?.features?.map((f) => {
+      const IconComponent = getIconComponent(f.icon) || Cloud;
+      return {
+        icon: IconComponent,
+        title: f.title,
+        description: f.description,
+      };
+    }) ||
+    defaultFeatures.map((f) => ({
+      ...f,
+      icon: getIconComponent(f.icon) || Cloud,
+    }));
   return (
     <section className="py-24 md:py-32 bg-background relative overflow-hidden">
       {/* Grid Pattern Background */}
@@ -63,12 +95,9 @@ export default function ArchFeaturesSection() {
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-            Key Features
+            {title}
           </h2>
-          <p className="text-lg text-muted-foreground">
-            Explore the key technological features that make our platform a
-            leader in compliance management
-          </p>
+          <p className="text-lg text-muted-foreground">{subtitle}</p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">

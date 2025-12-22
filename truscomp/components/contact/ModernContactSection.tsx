@@ -377,7 +377,7 @@ export const ModernContactSection: React.FC<ModernContactSectionProps> = ({
                     htmlFor="name"
                     className="text-sm font-semibold text-gray-700"
                   >
-                    Name
+                    Name <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     id="name"
@@ -401,7 +401,7 @@ export const ModernContactSection: React.FC<ModernContactSectionProps> = ({
                     htmlFor="email"
                     className="text-sm font-semibold text-gray-700"
                   >
-                    Email
+                    Email <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     id="email"
@@ -426,7 +426,7 @@ export const ModernContactSection: React.FC<ModernContactSectionProps> = ({
                     htmlFor="phone"
                     className="text-sm font-semibold text-gray-700"
                   >
-                    Phone
+                    Phone <span className="text-red-500">*</span>
                   </Label>
                   <div className="flex gap-2">
                     <select
@@ -464,7 +464,7 @@ export const ModernContactSection: React.FC<ModernContactSectionProps> = ({
                     htmlFor="message"
                     className="text-sm font-semibold text-gray-700"
                   >
-                    Message
+                    Message <span className="text-red-500">*</span>
                   </Label>
                   <Textarea
                     id="message"

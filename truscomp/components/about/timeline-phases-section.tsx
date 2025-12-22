@@ -107,8 +107,30 @@ const phases = [
   },
 ];
 
-export default function ProjectDeliverySection() {
+interface TimelinePhasesSectionProps {
+  data?: {
+    phases?: Array<{
+      title: string;
+      week: string;
+      description: string;
+      deliverables: string[];
+      duration: string;
+    }>;
+  } | null;
+}
+
+export default function ProjectDeliverySection({ data }: TimelinePhasesSectionProps) {
   const [activePhase, setActivePhase] = useState(0);
+  
+  // Use data from API if available, otherwise use default phases
+  const displayPhases = data?.phases?.map((phase, index) => ({
+    number: String(index + 1).padStart(2, '0'),
+    title: phase.title,
+    week: phase.week,
+    description: phase.description,
+    deliverables: phase.deliverables,
+    duration: phase.duration,
+  })) || phases;
 
   return (
     <section className="relative overflow-hidden bg-linear-to-b from-background via-background to-background/95 py-24 sm:py-32">
@@ -139,7 +161,7 @@ export default function ProjectDeliverySection() {
 
         {/* Phase Navigation */}
         <div className="mb-16 flex flex-wrap items-center justify-center gap-3">
-          {phases.map((phase, index) => (
+          {displayPhases.map((phase, index) => (
             <motion.button
               key={index}
               onClick={() => setActivePhase(index)}
@@ -185,20 +207,20 @@ export default function ProjectDeliverySection() {
                       className="flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br from-primary/20 to-accent/20"
                     >
                       <span className="text-3xl font-bold text-primary">
-                        {phases[activePhase].number}
+                        {displayPhases[activePhase].number}
                       </span>
                     </motion.div>
                     <div className="flex-1">
                       <div className="mb-1 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                        {phases[activePhase].week}
+                        {displayPhases[activePhase].week}
                       </div>
                       <h3 className="text-3xl font-bold text-foreground">
-                        {phases[activePhase].title}
+                        {displayPhases[activePhase].title}
                       </h3>
                     </div>
                   </div>
                   <p className="text-lg leading-relaxed text-muted-foreground ml-4">
-                    {phases[activePhase].description}
+                    {displayPhases[activePhase].description}
                   </p>
                 </div>
 
@@ -209,7 +231,7 @@ export default function ProjectDeliverySection() {
                     Key Deliverables
                   </h4>
                   <div className="grid gap-3 sm:grid-cols-2">
-                    {phases[activePhase].deliverables.map((deliverable, i) => (
+                    {displayPhases[activePhase].deliverables.map((deliverable, i) => (
                       <motion.div
                         key={i}
                         initial={{ opacity: 0, y: 10 }}
@@ -233,7 +255,7 @@ export default function ProjectDeliverySection() {
                   <Clock className="h-5 w-5 text-primary" />
                   <span className="font-medium text-foreground">Duration:</span>
                   <span className="font-semibold text-primary">
-                    {phases[activePhase].duration}
+                    {displayPhases[activePhase].duration}
                   </span>
                 </motion.div>
               </motion.div>
@@ -271,7 +293,7 @@ export default function ProjectDeliverySection() {
                           ? "1552664730-d307ca884978?w=500&h=500&fit=crop" // Full-Scale Launch
                           : "1552664730-d307ca884978?w=500&h=500&fit=crop" // Ongoing Support
                       }`}
-                      alt={phases[activePhase].title}
+                      alt={displayPhases[activePhase].title}
                       className="h-full w-full object-cover"
                     />
                     <motion.div
@@ -292,15 +314,15 @@ export default function ProjectDeliverySection() {
                     <div className="flex items-end gap-3">
                       <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 backdrop-blur-sm">
                         <span className="text-2xl font-bold text-primary">
-                          {phases[activePhase].number}
+                          {displayPhases[activePhase].number}
                         </span>
                       </div>
                       <div>
                         <p className="text-xs font-semibold text-primary">
-                          {phases[activePhase].week}
+                          {displayPhases[activePhase].week}
                         </p>
                         <p className="font-semibold text-white">
-                          {phases[activePhase].title}
+                          {displayPhases[activePhase].title}
                         </p>
                       </div>
                     </div>

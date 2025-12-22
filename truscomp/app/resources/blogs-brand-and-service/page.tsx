@@ -3,6 +3,10 @@ import { Suspense } from "react";
 import BlogListClient from "./BlogListClient";
 import { axiosInstance } from "@/lib/api";
 
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 // Default SEO values
 const DEFAULT_SEO = {
   title: "Blog | Expert Insights & Resources | TrusComp",
@@ -20,7 +24,11 @@ interface PageSEO {
 async function getPageSEO(): Promise<PageSEO | null> {
   try {
     const response = await axiosInstance.get("/api/page-seo/blog-listing", {
-      headers: { "Cache-Control": "no-cache" },
+      headers: { 
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
+      },
     });
     return response.data.success ? response.data.data : null;
   } catch {
@@ -106,7 +114,11 @@ async function getBlogs(
 
     const response = await axiosInstance.get("/api/blog", {
       params,
-      headers: { "Cache-Control": "no-cache" },
+      headers: { 
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
+      },
     });
 
     return response.data;
@@ -119,7 +131,11 @@ async function getBlogs(
 async function getCategories(): Promise<Category[]> {
   try {
     const response = await axiosInstance.get("/api/categories", {
-      headers: { "Cache-Control": "no-cache" },
+      headers: { 
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
+      },
     });
     return response.data.success ? response.data.data : [];
   } catch (error) {

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Shield, Users, Settings, Award, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GridPattern } from "@/components/ui/grid-pattern";
+import { getIconComponent } from "@/lib/icons";
 
 interface FeatureProps {
   icon: React.ReactNode;
@@ -28,56 +29,88 @@ const Feature: React.FC<FeatureProps> = ({ icon, title, description }) => {
   );
 };
 
-export const WhyChooseSection: React.FC = () => {
-  const features = [
-    {
-      icon: <Shield className="size-5" />,
-      title: "Comprehensive Compliance",
-      description:
-        "End-to-end management, risk assessments, and training programs tailored to your needs.",
-    },
-    {
-      icon: <Award className="size-5" />,
-      title: "Expertise You Can Trust",
-      description:
-        "Founded by industry leaders with decades of experience in labor law and consulting.",
-    },
-    {
-      icon: <Settings className="size-5" />,
-      title: "Customizable Solutions",
-      description:
-        "Scalable designs meeting unique requirements of SMEs and large enterprises.",
-    },
-    {
-      icon: <Users className="size-5" />,
-      title: "Proven Track Record",
-      description:
-        "Trusted by over 100 clients including Amara Raja and Blue Star for flawless compliance.",
-    },
-  ];
+interface WhyChooseSectionProps {
+  data?: {
+    title: string;
+    subtitle: string;
+    features: Array<{
+      icon: string;
+      title: string;
+      description: string;
+    }>;
+    stats: Array<{
+      number: string;
+      label: string;
+      className: string;
+    }>;
+    trustIndicators: string[];
+  };
+}
 
-  const stats = [
-    {
-      number: "100+",
-      label: "Trusted Clients",
-      className: "bg-primary/5 border-primary/10",
-    },
-    {
-      number: "15+",
-      label: "Years Experience",
-      className: "bg-primary/10 border-primary/20",
-    },
-    {
-      number: "99.9%",
-      label: "Compliance Rate",
-      className: "bg-primary/5 border-primary/10",
-    },
-    {
-      number: "24/7",
-      label: "Support Available",
-      className: "bg-primary/10 border-primary/20",
-    },
-  ];
+export const WhyChooseSection: React.FC<WhyChooseSectionProps> = ({ data }) => {
+  // Default data as fallback
+  const defaultData = {
+    title: "Why Choose TrusComp?",
+    subtitle:
+      "Choose TrusComp for effortless, future-ready compliance. Let us handle the complexity, so you can focus on growth!",
+    features: [
+      {
+        icon: "Shield",
+        title: "Comprehensive Compliance",
+        description:
+          "End-to-end management, risk assessments, and training programs tailored to your needs.",
+      },
+      {
+        icon: "Award",
+        title: "Expertise You Can Trust",
+        description:
+          "Founded by industry leaders with decades of experience in labor law and consulting.",
+      },
+      {
+        icon: "Settings",
+        title: "Customizable Solutions",
+        description:
+          "Scalable designs meeting unique requirements of SMEs and large enterprises.",
+      },
+      {
+        icon: "Users",
+        title: "Proven Track Record",
+        description:
+          "Trusted by over 100 clients including Amara Raja and Blue Star for flawless compliance.",
+      },
+    ],
+    stats: [
+      {
+        number: "100+",
+        label: "Trusted Clients",
+        className: "bg-primary/5 border-primary/10",
+      },
+      {
+        number: "15+",
+        label: "Years Experience",
+        className: "bg-primary/10 border-primary/20",
+      },
+      {
+        number: "99.9%",
+        label: "Compliance Rate",
+        className: "bg-primary/5 border-primary/10",
+      },
+      {
+        number: "24/7",
+        label: "Support Available",
+        className: "bg-primary/10 border-primary/20",
+      },
+    ],
+    trustIndicators: [
+      "Amara Raja",
+      "Blue Star",
+      "Dr. Reddy's",
+      "Ola Electric",
+      "Reckitt Benckiser",
+    ],
+  };
+
+  const sectionData = data || defaultData;
 
   return (
     <section className="py-20 md:py-32 bg-muted/30 relative overflow-hidden">
@@ -106,11 +139,10 @@ export const WhyChooseSection: React.FC = () => {
             className="space-y-8"
           >
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground">
-              Why Choose TrusComp?
+              {sectionData.title}
             </h2>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Choose TrusComp for effortless, future-ready compliance. Let us
-              handle the complexity, so you can focus on growth!
+              {sectionData.subtitle}
             </p>
 
             <ul className="space-y-4">
@@ -137,20 +169,23 @@ export const WhyChooseSection: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="grid gap-6"
           >
-            {features.map((feature, index) => (
-              <Feature
-                key={index}
-                icon={feature.icon}
-                title={feature.title}
-                description={feature.description}
-              />
-            ))}
+            {sectionData.features.map((feature, index) => {
+              const IconComponent = getIconComponent(feature.icon) || Shield;
+              return (
+                <Feature
+                  key={index}
+                  icon={<IconComponent className="size-5" />}
+                  title={feature.title}
+                  description={feature.description}
+                />
+              );
+            })}
           </motion.div>
         </div>
 
         {/* Stats Bento Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map((stat, index) => (
+          {sectionData.stats.map((stat, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -184,13 +219,7 @@ export const WhyChooseSection: React.FC = () => {
             Trusted by leading companies
           </p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-            {[
-              "Amara Raja",
-              "Blue Star",
-              "Dr. Reddy's",
-              "Ola Electric",
-              "Reckitt Benckiser",
-            ].map((company, i) => (
+            {sectionData.trustIndicators.map((company, i) => (
               <span key={i} className="text-xl font-bold text-foreground/80">
                 {company}
               </span>

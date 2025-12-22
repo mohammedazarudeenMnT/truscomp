@@ -4,7 +4,26 @@ import { Target, Compass } from "lucide-react";
 import Image from "next/image";
 import { GridPattern } from "@/components/ui/grid-pattern";
 
-export default function VisionMissionSection() {
+interface VisionMissionSectionProps {
+  data?: {
+    visionTitle?: string;
+    visionContent?: string;
+    visionImage?: string;
+    missionTitle?: string;
+    missionContent?: string;
+    missionImage?: string;
+  } | null;
+}
+
+export default function VisionMissionSection({ data }: VisionMissionSectionProps) {
+  const visionTitle = data?.visionTitle || "Transforming Compliance Management";
+  const visionContent = data?.visionContent || "To be the leading force in transforming compliance management in India, enabling organizations to achieve regulatory excellence effortlessly. We aim to set new benchmarks for ethical business practices across industries, fostering trust, transparency, and innovation.";
+  const visionImage = data?.visionImage || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop";
+  
+  const missionTitle = data?.missionTitle || "Empowering Business Growth";
+  const missionContent = data?.missionContent || "To empower businesses with innovative compliance solutions that simplify regulatory adherence and enhance operational efficiency. We strive to enable organizations to focus on growth with complete trust in their compliance.";
+  const missionImage = data?.missionImage || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop";
+
   return (
     <section className="py-20 lg:py-32 bg-background overflow-hidden relative">
       {/* Grid Pattern Background */}
@@ -28,7 +47,7 @@ export default function VisionMissionSection() {
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="w-full md:w-1/2 relative aspect-video rounded-2xl overflow-hidden shadow-2xl rotate-1 hover:rotate-0 transition-transform duration-500">
               <img
-                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop"
+                src={visionImage}
                 alt="Vision"
                 className="object-cover w-full h-full"
               />
@@ -39,14 +58,10 @@ export default function VisionMissionSection() {
                 <Target className="w-4 h-4" /> Our Vision
               </div>
               <h2 className="text-3xl md:text-4xl font-bold leading-tight">
-                Transforming Compliance Management
+                {visionTitle}
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                To be the leading force in transforming compliance management in
-                India, enabling organizations to achieve regulatory excellence
-                effortlessly. We aim to set new benchmarks for ethical business
-                practices across industries, fostering trust, transparency, and
-                innovation.
+                {visionContent}
               </p>
             </div>
           </div>
@@ -55,7 +70,7 @@ export default function VisionMissionSection() {
           <div className="flex flex-col md:flex-row-reverse items-center gap-12">
             <div className="w-full md:w-1/2 relative aspect-video rounded-2xl overflow-hidden shadow-2xl -rotate-1 hover:rotate-0 transition-transform duration-500">
               <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop"
+                src={missionImage}
                 alt="Mission"
                 className="object-cover w-full h-full"
               />
@@ -66,13 +81,10 @@ export default function VisionMissionSection() {
                 <Compass className="w-4 h-4" /> Our Mission
               </div>
               <h2 className="text-3xl md:text-4xl font-bold leading-tight">
-                Empowering Business Growth
+                {missionTitle}
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                To empower businesses with innovative compliance solutions that
-                simplify regulatory adherence and enhance operational
-                efficiency. We strive to enable organizations to focus on growth
-                with complete trust in their compliance.
+                {missionContent}
               </p>
             </div>
           </div>

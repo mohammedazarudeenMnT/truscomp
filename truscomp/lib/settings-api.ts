@@ -6,6 +6,7 @@ export interface GeneralSettings {
   companyPhone: string;
   companyAddress: string;
   companyDescription: string;
+  companyLogo?: string | null;
 }
 
 // Get all settings

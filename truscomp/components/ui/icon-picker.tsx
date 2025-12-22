@@ -6,8 +6,9 @@ import { Input } from "./input";
 import { Label } from "./label";
 import { Card, CardContent } from "./card";
 import { Search, ChevronDown, Check } from "lucide-react";
-import * as Icons from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getIconComponent, getAvailableIcons } from "@/lib/icons";
+import { ICON_SIZES } from "@/lib/icon-sizes";
 
 interface IconPickerProps {
   value?: string;
@@ -15,24 +16,18 @@ interface IconPickerProps {
   label?: string;
 }
 
-const popularIcons = [
-  "CheckCircle", "Star", "Award", "Shield", "Clock", "Users", "TrendingUp",
-  "Zap", "Heart", "ThumbsUp", "Sparkles", "Target", "Rocket", "Globe",
-  "LayoutDashboard", "Workflow", "Calendar", "Bell", "Settings", "FileText",
-  "Layers", "Cpu", "BarChart", "Lightbulb", "MapPin", "Send", "BookOpen"
-];
-
 export function IconPicker({ value, onChange, label }: IconPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
 
-  const filteredIcons = popularIcons.filter((icon) =>
+  const iconNames = getAvailableIcons();
+  const filteredIcons = iconNames.filter((icon) =>
     icon.toLowerCase().includes(search.toLowerCase())
   );
 
   const getIcon = (iconName: string) => {
-    const IconComponent = Icons[iconName as keyof typeof Icons] as React.ComponentType<{ className?: string }>;
-    return IconComponent ? <IconComponent className="w-5 h-5" /> : null;
+    const IconComponent = getIconComponent(iconName);
+    return IconComponent ? <IconComponent className={ICON_SIZES.md} /> : null;
   };
 
   return (
@@ -49,14 +44,16 @@ export function IconPicker({ value, onChange, label }: IconPickerProps) {
             {value && getIcon(value)}
             <span>{value || "Select icon..."}</span>
           </div>
-          <ChevronDown className="w-4 h-4 opacity-50" />
+          <ChevronDown className={`${ICON_SIZES.sm} opacity-50`} />
         </Button>
-        
+
         {isOpen && (
           <Card className="absolute z-50 w-full mt-1 shadow-lg">
             <CardContent className="p-3 space-y-3">
               <div className="relative">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Search
+                  className={`absolute left-2 top-2.5 ${ICON_SIZES.sm} text-muted-foreground`}
+                />
                 <Input
                   placeholder="Search icons..."
                   value={search}
@@ -81,7 +78,9 @@ export function IconPicker({ value, onChange, label }: IconPickerProps) {
                       )}
                     >
                       {value === icon && (
-                        <Check className="absolute top-1 right-1 w-3 h-3 text-primary" />
+                        <Check
+                          className={`absolute top-1 right-1 ${ICON_SIZES.xs} text-primary`}
+                        />
                       )}
                       {getIcon(icon)}
                       <span className="text-[9px] text-center leading-tight">

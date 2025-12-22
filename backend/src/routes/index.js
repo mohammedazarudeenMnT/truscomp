@@ -4,6 +4,9 @@ import themeSettingsRoutes from "./settings/themeSettings.routes.js";
 import pageSEORoutes from "./settings/pageSEO.routes.js";
 import serviceRoutes from "./content/service.routes.js";
 import servicesPageRoutes from "./content/servicesPage.routes.js";
+import homePageRoutes from "./content/homePage.routes.js";
+import aboutPageRoutes from "./content/aboutPage.routes.js";
+import testimonialsPageRoutes from "./content/testimonialsPage.routes.js";
 import blogRoutes from "./content/blog.routes.js";
 import categoryRoutes from "./content/category.routes.js";
 
@@ -15,6 +18,9 @@ export default function registerRoutes(app) {
   app.use("/api/page-seo", pageSEORoutes);
   app.use("/api/services", serviceRoutes);
   app.use("/api/services-page-settings", servicesPageRoutes);
+  app.use("/api/home-page-settings", homePageRoutes);
+  app.use("/api/about-page-settings", aboutPageRoutes);
+  app.use("/api/testimonials-page-settings", testimonialsPageRoutes);
   app.use("/api/blog", blogRoutes);
   app.use("/api/categories", categoryRoutes);
 }

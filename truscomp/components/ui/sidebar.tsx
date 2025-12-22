@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { CompanyLogo } from "@/components/ui/company-logo";
 
 export interface SidebarLink {
   label: string;
@@ -122,14 +123,9 @@ export function Sidebar({ links, user, className, onLinkClick }: SidebarProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex items-center gap-3"
+                className="flex items-center gap-3 w-full"
               >
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center shadow-lg shadow-primary-500/20">
-                  <span className="text-white font-bold text-xl">V</span>
-                </div>
-                <span className="text-xl font-bold text-foreground tracking-tight">
-                  Truscomp
-                </span>
+                <CompanyLogo width={180} height={60} />
               </motion.div>
             ) : (
               <motion.div
@@ -138,9 +134,7 @@ export function Sidebar({ links, user, className, onLinkClick }: SidebarProps) {
                 exit={{ opacity: 0 }}
                 className="w-full flex justify-center"
               >
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center shadow-lg shadow-primary-500/20">
-                  <span className="text-white font-bold text-xl">V</span>
-                </div>
+                <CompanyLogo width={40} height={40} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -215,7 +209,7 @@ export function Sidebar({ links, user, className, onLinkClick }: SidebarProps) {
                   {/* Icon */}
                   <span
                     className={cn(
-                      "flex-shrink-0 w-5 h-5 transition-transform group-hover:scale-110",
+                      "shrink-0 w-5 h-5 transition-transform group-hover:scale-110",
                       link.isActive ? "text-primary-600" : "text-muted-foreground group-hover:text-foreground"
                     )}
                   >

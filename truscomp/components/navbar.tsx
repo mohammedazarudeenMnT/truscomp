@@ -1,13 +1,15 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronDown, Menu, User, LogOut, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/contexts/auth-context";
 import { Button } from "@/components/ui/button";
+import { CompanyLogo } from "@/components/ui/company-logo";
+import { axiosInstance } from "@/lib/api";
 
 interface NavItem {
   name: string;
@@ -25,8 +27,26 @@ interface DropdownNavbarProps {
 export const DropdownNavbar = ({ className }: DropdownNavbarProps) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [services, setServices] = useState<
+    Array<{ slug: string; heroTitle: string }>
+  >([]);
   const pathname = usePathname();
   const { user, isAuthenticated, logout } = useAuth();
+
+  // Fetch services from API
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axiosInstance.get("/api/services");
+        if (response.data.success) {
+          setServices(response.data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch services:", error);
+      }
+    };
+    fetchServices();
+  }, []);
 
   const isActive = (link?: string) => {
     if (!link) return false;
@@ -61,49 +81,18 @@ export const DropdownNavbar = ({ className }: DropdownNavbarProps) => {
     {
       name: "Services",
       link: "/services",
-      submenu: [
-        {
-          name: "End-to-End Labor Law Compliance Management",
-          link: "/services#end-to-end",
-        },
-        { name: "Compliance Calendar", link: "/services#calendar" },
-        {
-          name: "Records & Registers Compliance – Automated Solutions by TrusComp",
-          link: "/services#records",
-        },
-        {
-          name: "Remittances & Return's – Automated Compliance by TrusComp",
-          link: "/services#remittances",
-        },
-        {
-          name: "Inspection Handling & Audit Appearance",
-          link: "/services#inspection",
-        },
-        {
-          name: "Licenses & Registrations (Renewals & Amendments)",
-          link: "/services#licenses",
-        },
-        { name: "Vendor Audit", link: "/services#vendor-audit" },
-        {
-          name: "Employer Audit (S&E and Factory)",
-          link: "/services#employer-audit",
-        },
-        {
-          name: "Contractor Compliance Solutions",
-          link: "/services#contractor",
-        },
-        { name: "Factory Compliance Solutions", link: "/services#factory" },
-        { name: "Payroll Compliance", link: "/services#payroll" },
-        {
-          name: "UAN and IP Generation (SS Bot – Social Security Bot)",
-          link: "/services#uan-ip",
-        },
-        {
-          name: "Compliance Risk Assessment",
-          link: "/services#risk-assessment",
-        },
-        { name: "Training and Awareness Programs", link: "/services#training" },
-      ],
+      submenu:
+        services.length > 0
+          ? services.map((service) => ({
+              name: service.heroTitle,
+              link: `/services/${service.slug}`,
+            }))
+          : [
+              {
+                name: "View All Services",
+                link: "/services",
+              },
+            ],
     },
     {
       name: "Resources",
@@ -155,16 +144,7 @@ export const DropdownNavbar = ({ className }: DropdownNavbarProps) => {
           {/* Logo */}
           <div className="shrink-0">
             <Link href="/" className="flex items-center cursor-pointer">
-              <div className="h-16 w-32 relative">
-                <Image
-                  src="/images/logo/logo.webp"
-                  alt="TrusComp logo"
-                  fill
-                  sizes="128px"
-                  className="object-contain"
-                  priority
-                />
-              </div>
+              <CompanyLogo width={128} height={64} />
             </Link>
           </div>
 
@@ -246,15 +226,22 @@ export const DropdownNavbar = ({ className }: DropdownNavbarProps) => {
           <div className="hidden lg:flex items-center gap-3 ml-4">
             {isAuthenticated && user ? (
               <>
-                <Button variant="ghost" size="sm" className="text-base-700 hover:text-primary-600 hover:bg-primary-50 dark:text-base-300" asChild>
-                  <Link href={user.role === 'admin' ? '/dashboard' : '/dashboard'}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-base-700 hover:text-primary-600 hover:bg-primary-50 dark:text-base-300"
+                  asChild
+                >
+                  <Link
+                    href={user.role === "admin" ? "/dashboard" : "/dashboard"}
+                  >
                     <User className="w-4 h-4 mr-2" />
                     Dashboard
                   </Link>
                 </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   onClick={() => logout()}
                   className="text-base-700 hover:text-red-600 hover:border-red-600 dark:text-base-300"
                 >
@@ -263,7 +250,11 @@ export const DropdownNavbar = ({ className }: DropdownNavbarProps) => {
                 </Button>
               </>
             ) : (
-              <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
+              <Button
+                size="sm"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                asChild
+              >
                 <Link href="/login">Login</Link>
               </Button>
             )}
@@ -379,17 +370,21 @@ export const DropdownNavbar = ({ className }: DropdownNavbarProps) => {
               <div className="pt-4 mt-2 border-t border-base-200 dark:border-base-800">
                 {isAuthenticated && user ? (
                   <>
-                     <div className="flex items-center gap-3 px-3 py-2 mb-2 bg-base-50 dark:bg-base-800/50 rounded-lg mx-2">
-                        <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold text-sm">
-                            {user.name?.[0]?.toUpperCase() || 'U'}
-                        </div>
-                        <div className="overflow-hidden">
-                            <p className="font-semibold text-sm text-base-900 dark:text-base-100 truncate">{user.name}</p>
-                            <p className="text-xs text-base-500 dark:text-base-400 truncate">{user.email}</p>
-                        </div>
-                     </div>
-                    <Link 
-                      href={user.role === 'admin' ? '/dashboard' : '/dashboard'}
+                    <div className="flex items-center gap-3 px-3 py-2 mb-2 bg-base-50 dark:bg-base-800/50 rounded-lg mx-2">
+                      <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold text-sm">
+                        {user.name?.[0]?.toUpperCase() || "U"}
+                      </div>
+                      <div className="overflow-hidden">
+                        <p className="font-semibold text-sm text-base-900 dark:text-base-100 truncate">
+                          {user.name}
+                        </p>
+                        <p className="text-xs text-base-500 dark:text-base-400 truncate">
+                          {user.email}
+                        </p>
+                      </div>
+                    </div>
+                    <Link
+                      href={user.role === "admin" ? "/dashboard" : "/dashboard"}
                       className="flex items-center w-full px-3 py-2.5 text-base font-medium text-base-700 hover:bg-base-100 dark:text-base-300 dark:hover:bg-base-800 rounded-md"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >

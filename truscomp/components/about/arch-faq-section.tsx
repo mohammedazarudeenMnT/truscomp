@@ -2,7 +2,7 @@
 
 import { FaqSection as FaqComponent } from "@/components/ui/faq-section";
 
-const faqs = [
+const defaultFaqs = [
   {
     question: "What makes TrusComp's software architecture unique?",
     answer:
@@ -30,14 +30,35 @@ const faqs = [
   },
 ];
 
-export default function ArchFaqSection() {
+interface ArchFaqSectionProps {
+  data?: {
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    description?: string;
+    image?: string;
+    faqs?: Array<{
+      question: string;
+      answer: string;
+    }>;
+  } | null;
+}
+
+export default function ArchFaqSection({ data }: ArchFaqSectionProps) {
+  const badge = data?.badge || "FAQ'S";
+  const title = data?.title || "Frequently Asked Questions";
+  const subtitle = data?.subtitle || "";
+  const description = data?.description || "Common questions about our software architecture and technology platform";
+  const image = data?.image || "https://images.unsplash.com/photo-1516534775068-bb57e39c2d1b?q=80&w=830&h=844&auto=format&fit=crop";
+  const faqs = data?.faqs || defaultFaqs;
+
   return (
     <FaqComponent
-      badge="FAQ'S"
-      title="Frequently Asked Questions"
-      subtitle=""
-      description="Common questions about our software architecture and technology platform"
-      image="https://images.unsplash.com/photo-1516534775068-bb57e39c2d1b?q=80&w=830&h=844&auto=format&fit=crop"
+      badge={badge}
+      title={title}
+      subtitle={subtitle}
+      description={description}
+      image={image}
       faqs={faqs}
       layout="with-image"
     />

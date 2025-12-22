@@ -31,7 +31,6 @@ export interface BlogPostCardProps
     description: string;
     imageUrl?: string;
     href: string;
-    readTime?: string;
   };
   readMoreText?: string;
 }
@@ -47,7 +46,7 @@ const BlogPostCard = React.forwardRef<HTMLDivElement, BlogPostCardProps>(
     },
     ref
   ) => {
-    const { tag, date, title, description, imageUrl, href, readTime } = post;
+    const { tag, date, title, description, imageUrl, href } = post;
     // Animation variants for framer-motion
     const cardHover: Variants = {
       hover: {
@@ -93,12 +92,7 @@ const BlogPostCard = React.forwardRef<HTMLDivElement, BlogPostCardProps>(
                   <Calendar className="w-3 h-3" />
                   {date}
                 </span>
-                {readTime && (
-                  <span className="text-muted-foreground flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    {readTime}
-                  </span>
-                )}
+                
               </div>
               <h3 className="mb-4 text-2xl md:text-3xl font-bold leading-tight">
                 <span className="bg-gradient-to-r from-primary to-primary bg-[length:0%_2px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_2px]">

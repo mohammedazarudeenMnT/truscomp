@@ -2,10 +2,11 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, LucideIcon } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { GridPattern } from "@/components/ui/grid-pattern";
+import { getIconComponent } from "./icon-selector";
 
 interface CtaButton {
   text: string;
@@ -22,11 +23,6 @@ interface CtaHeroProps {
   isDark?: boolean;
   customBackground?: React.ReactNode;
 }
-
-const IconMap: { [key: string]: LucideIcon } = {
-  ArrowRight,
-  Sparkles,
-};
 
 export const CtaHero: React.FC<CtaHeroProps> = ({
   badge = "Ready to Transform?",
@@ -109,9 +105,7 @@ export const CtaHero: React.FC<CtaHeroProps> = ({
               className="flex flex-col sm:flex-row gap-4 w-full justify-center"
             >
               {buttons.map((button, index) => {
-                const IconComponent = button.icon
-                  ? (IconMap[button.icon] as LucideIcon)
-                  : ArrowRight;
+                const IconComponent = button.icon ? getIconComponent(button.icon) : null;
 
                 return (
                   <Button
@@ -127,7 +121,7 @@ export const CtaHero: React.FC<CtaHeroProps> = ({
                   >
                     <Link href={button.href}>
                       {button.text}
-                      {button.icon !== "Sparkles" && (
+                      {IconComponent && button.icon !== "Sparkles" && (
                         <IconComponent className="w-5 h-5" />
                       )}
                     </Link>

@@ -20,7 +20,6 @@ interface RelatedPost {
   title: string;
   description: string;
   href: string;
-  readTime?: string;
 }
 
 interface BlogDetailPageProps {
@@ -29,7 +28,6 @@ interface BlogDetailPageProps {
   subtitle?: string;
   author: Author;
   publishedDate: string;
-  readTime: string;
   featuredImage?: string;
   content: string;
   relatedPosts?: RelatedPost[];
@@ -42,7 +40,6 @@ export function BlogDetailPage({
   subtitle,
   author,
   publishedDate,
-  readTime,
   featuredImage,
   content,
   relatedPosts = [],
@@ -134,10 +131,7 @@ export function BlogDetailPage({
                   <Calendar className="w-4 h-4" />
                   <span>{publishedDate}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4" />
-                  <span>{readTime}</span>
-                </div>
+              
               </div>
             </motion.div>
           </div>

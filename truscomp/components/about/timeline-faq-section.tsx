@@ -2,8 +2,7 @@
 
 import { FaqSection as FaqComponent } from "@/components/ui/faq-section";
 
-export default function TimelineFaqSection() {
-  const faqs = [
+const defaultFaqs = [
     {
       question: "How long does TrusComp's implementation process take?",
       answer:
@@ -32,13 +31,35 @@ export default function TimelineFaqSection() {
     },
   ];
 
+interface TimelineFaqSectionProps {
+  data?: {
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    description?: string;
+    image?: string;
+    faqs?: Array<{
+      question: string;
+      answer: string;
+    }>;
+  } | null;
+}
+
+export default function TimelineFaqSection({ data }: TimelineFaqSectionProps) {
+  const badge = data?.badge || "FAQ'S";
+  const title = data?.title || "Frequently Asked Questions";
+  const subtitle = data?.subtitle || "";
+  const description = data?.description || "Find answers to common questions about our implementation process.";
+  const image = data?.image || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=830&h=844&auto=format&fit=crop";
+  const faqs = data?.faqs || defaultFaqs;
+
   return (
     <FaqComponent
-      badge="FAQ'S"
-      title="Frequently Asked Questions"
-      subtitle=""
-      description="Find answers to common questions about our implementation process."
-      image="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=830&h=844&auto=format&fit=crop"
+      badge={badge}
+      title={title}
+      subtitle={subtitle}
+      description={description}
+      image={image}
       faqs={faqs}
       layout="with-image"
     />

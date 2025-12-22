@@ -16,9 +16,9 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { axiosInstance } from "@/lib/api";
-import { 
-  Loader2, 
-  ArrowLeft, 
+import {
+  Loader2,
+  ArrowLeft,
   Save,
   FileText,
   Tag,
@@ -73,7 +73,9 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
       try {
         const response = await axiosInstance.get("/api/categories");
         if (response.data.success) {
-          const categoryNames = response.data.data.map((cat: { name: string }) => cat.name);
+          const categoryNames = response.data.data.map(
+            (cat: { name: string }) => cat.name
+          );
           setCategories(categoryNames);
         }
       } catch (error) {
@@ -91,14 +93,18 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
         description: initialData.description || "",
         content: initialData.content || "",
         category: initialData.category || "",
-        tags: Array.isArray(initialData.tags) ? initialData.tags.join(", ") : initialData.tags || "",
+        tags: Array.isArray(initialData.tags)
+          ? initialData.tags.join(", ")
+          : initialData.tags || "",
         status: initialData.status || "draft",
         isFeatured: initialData.isFeatured || false,
         image: initialData.featuredImage?.url || null,
       });
       if (initialData.category) {
-        setCategories(prev => 
-          prev.includes(initialData.category!) ? prev : [...prev, initialData.category!]
+        setCategories((prev) =>
+          prev.includes(initialData.category!)
+            ? prev
+            : [...prev, initialData.category!]
         );
       }
     }
@@ -122,7 +128,18 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    // Validate required fields
+    if (!formData.title.trim()) {
+      toast.error("Please enter a blog title");
+      return;
+    }
+
+    if (!formData.content.trim()) {
+      toast.error("Please write some content for your blog post");
+      return;
+    }
+
     if (!formData.category) {
       toast.error("Please select or create a category");
       return;
@@ -148,8 +165,8 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
     } catch (error: unknown) {
       console.error("Error submitting form:", error);
       toast.error(
-        (error as { response?: { data?: { message?: string } } })?.response?.data?.message || 
-        "Something went wrong"
+        (error as { response?: { data?: { message?: string } } })?.response
+          ?.data?.message || "Something went wrong"
       );
     } finally {
       setIsLoading(false);
@@ -175,7 +192,9 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
               {isEditing ? "Edit Article" : "Create New Article"}
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              {isEditing ? "Update your blog post details" : "Fill in the details to publish a new article"}
+              {isEditing
+                ? "Update your blog post details"
+                : "Fill in the details to publish a new article"}
             </p>
           </div>
         </div>
@@ -210,23 +229,29 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
             </div>
             <div className="space-y-4">
               <div className="grid gap-2">
-                <Label htmlFor="title">Title</Label>
+                <Label htmlFor="title">
+                  Title <span className="text-red-500 font-bold">*</span>
+                </Label>
                 <Input
                   id="title"
                   placeholder="Enter article title..."
                   value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
                   required
                 />
               </div>
-              
+
               <div className="grid gap-2">
                 <Label htmlFor="subtitle">Subtitle</Label>
                 <Input
                   id="subtitle"
                   placeholder="A brief subtitle or tagline..."
                   value={formData.subtitle}
-                  onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, subtitle: e.target.value })
+                  }
                 />
               </div>
 
@@ -236,7 +261,9 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
                   id="description"
                   placeholder="Brief description for SEO and previews..."
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   rows={3}
                 />
               </div>
@@ -247,12 +274,16 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
           <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-6">
               <FileText className="w-5 h-5 text-primary" />
-              <h3 className="text-lg font-semibold">Content</h3>
+              <h3 className="text-lg font-semibold">
+                Content <span className="text-red-500 font-bold">*</span>
+              </h3>
             </div>
             <div className="min-h-[500px] border border-border rounded-lg overflow-hidden">
               <LexicalEditor
                 value={formData.content}
-                onChange={(value) => setFormData({ ...formData, content: value })}
+                onChange={(value) =>
+                  setFormData({ ...formData, content: value })
+                }
                 placeholder="Write your article content here..."
               />
             </div>
@@ -285,7 +316,9 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
                 <Label>Status</Label>
                 <Select
                   value={formData.status}
-                  onValueChange={(value) => setFormData({ ...formData, status: value })}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, status: value })
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -300,12 +333,16 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
               <div className="flex items-center justify-between py-3 px-4 bg-muted/50 rounded-lg">
                 <div className="flex items-center gap-2">
                   <Star className="w-4 h-4 text-amber-500" />
-                  <Label htmlFor="featured" className="cursor-pointer">Featured Article</Label>
+                  <Label htmlFor="featured" className="cursor-pointer">
+                    Featured Article
+                  </Label>
                 </div>
                 <Switch
                   id="featured"
                   checked={formData.isFeatured}
-                  onCheckedChange={(checked) => setFormData({ ...formData, isFeatured: checked })}
+                  onCheckedChange={(checked) =>
+                    setFormData({ ...formData, isFeatured: checked })
+                  }
                 />
               </div>
             </div>
@@ -319,13 +356,17 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
             </div>
             <div className="space-y-4">
               <div className="grid gap-2">
-                <Label>Category <span className="text-destructive">*</span></Label>
+                <Label>
+                  Category <span className="text-red-500 font-bold">*</span>
+                </Label>
                 {!isAddingCategory ? (
                   <div className="space-y-2">
                     {categories.length > 0 ? (
                       <Select
                         value={formData.category}
-                        onValueChange={(value) => setFormData({ ...formData, category: value })}
+                        onValueChange={(value) =>
+                          setFormData({ ...formData, category: value })
+                        }
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select a category" />
@@ -339,11 +380,13 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
                         </SelectContent>
                       </Select>
                     ) : (
-                      <p className="text-sm text-muted-foreground py-2">No categories yet</p>
+                      <p className="text-sm text-muted-foreground py-2">
+                        No categories yet
+                      </p>
                     )}
-                    <Button 
-                      type="button" 
-                      variant="outline" 
+                    <Button
+                      type="button"
+                      variant="outline"
                       size="sm"
                       className="w-full"
                       onClick={() => setIsAddingCategory(true)}
@@ -369,16 +412,16 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
                       />
                     </div>
                     <div className="flex gap-2">
-                      <Button 
-                        type="button" 
+                      <Button
+                        type="button"
                         size="sm"
                         onClick={handleAddCategory}
                         disabled={!newCategory.trim()}
                       >
                         Add
                       </Button>
-                      <Button 
-                        type="button" 
+                      <Button
+                        type="button"
                         size="sm"
                         variant="ghost"
                         onClick={() => {
@@ -399,7 +442,9 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
                   id="tags"
                   placeholder="Separate tags with commas..."
                   value={formData.tags}
-                  onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, tags: e.target.value })
+                  }
                 />
                 <p className="text-xs text-muted-foreground">
                   e.g., compliance, security, updates

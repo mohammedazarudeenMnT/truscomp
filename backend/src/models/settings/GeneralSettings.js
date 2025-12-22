@@ -27,6 +27,10 @@ const generalSettingsSchema = new mongoose.Schema({
     required: true,
     default: 'A transparent, automated MLM system built on Binary + PV earning model'
   },
+  companyLogo: {
+    type: String,
+    default: '/images/logo/logo.webp'
+  },
 
 
   // Email verification fields

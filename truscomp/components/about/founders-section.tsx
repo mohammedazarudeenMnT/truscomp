@@ -1,10 +1,11 @@
 "use client";
 
-import { Linkedin, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { GridPattern } from "@/components/ui/grid-pattern";
 
-const members = [
+const defaultMembers = [
   {
     name: "Mr. S. Deenadayalan",
     role: "Chairman",
@@ -37,7 +38,27 @@ const members = [
   },
 ];
 
-export default function FoundersSection() {
+interface FoundersSectionProps {
+  data?: {
+    title?: string;
+    subtitle?: string;
+    members?: Array<{
+      name: string;
+      role: string;
+      image: string;
+      bio: string;
+      linkedinUrl?: string;
+    }>;
+  } | null;
+}
+
+export default function FoundersSection({ data }: FoundersSectionProps) {
+  const title = data?.title || "Our Founders";
+  const subtitle = data?.subtitle || "Meet the visionary leaders driving TrusComp's success:";
+  const members = data?.members?.map(m => ({
+    ...m,
+    social: { linkedin: m.linkedinUrl || "#" }
+  })) || defaultMembers;
   return (
     <section
       id="founders"
@@ -60,9 +81,9 @@ export default function FoundersSection() {
       />
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="text-center mb-20">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">Our Founders</h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">{title}</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Meet the visionary leaders driving TrusComp's success:
+            {subtitle}
           </p>
         </div>
 
@@ -73,9 +94,10 @@ export default function FoundersSection() {
               className="group relative bg-background rounded-2xl overflow-hidden border transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
             >
               <div className="aspect-4/5 overflow-hidden relative">
-                <img
+                <Image
                   src={member.image}
                   alt={member.name}
+                  fill
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />

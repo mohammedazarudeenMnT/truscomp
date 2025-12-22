@@ -4,7 +4,7 @@ import { Linkedin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
-const founders = [
+const defaultFounders = [
     {
         name: "Mr. S. Deenadayalan",
         title: "Founder",
@@ -28,16 +28,39 @@ const founders = [
     },
 ];
 
-export default function TeamFoundersSection() {
+interface TeamFoundersSectionProps {
+    data?: {
+        foundersTitle?: string;
+        foundersSubtitle?: string;
+        founders?: Array<{
+            name: string;
+            role: string;
+            bio: string;
+            image: string;
+            linkedinUrl?: string;
+        }>;
+    } | null;
+}
+
+export default function TeamFoundersSection({ data }: TeamFoundersSectionProps) {
+    const title = data?.foundersTitle || "Our Founders";
+    const subtitle = data?.foundersSubtitle || "Meet the visionary leaders driving TrusComp's success";
+    const founders = data?.founders?.map(f => ({
+        name: f.name,
+        title: f.role,
+        bio: f.bio,
+        image: f.image,
+        linkedin: f.linkedinUrl || "#",
+    })) || defaultFounders;
     return (
         <section className="py-24 md:py-32 bg-muted/30">
             <div className="container mx-auto px-6">
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-                        Our Founders
+                        {title}
                     </h2>
                     <p className="mt-6 text-lg text-muted-foreground">
-                        Meet the visionary leaders driving TrusComp&apos;s success
+                        {subtitle}
                     </p>
                 </div>
 
@@ -48,7 +71,7 @@ export default function TeamFoundersSection() {
                             className="group relative flex flex-col bg-card border rounded-3xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] overflow-hidden"
                         >
                             {/* Background gradient overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                            <div className="absolute inset-0 bg-linear-to-t from-background/95 via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
                             {/* Profile image */}
                             <div className="relative h-80 overflow-hidden">
@@ -59,7 +82,7 @@ export default function TeamFoundersSection() {
                                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
                                 {/* Smooth blur overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+                                <div className="absolute inset-0 bg-linear-to-t from-background/90 via-background/20 to-transparent" />
                             </div>
 
                             {/* Content */}

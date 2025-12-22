@@ -12,13 +12,20 @@ interface BlogPost {
 async function getBlogs(): Promise<BlogPost[]> {
   try {
     const response = await axiosInstance.get("/api/blog", {
-      headers: { "Cache-Control": "no-cache" },
+      headers: { 
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
+      },
     });
     return response.data.success ? response.data.data : [];
   } catch {
     return [];
   }
 }
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogs = await getBlogs();

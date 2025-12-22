@@ -20,6 +20,7 @@ export const getSettings = async (req, res) => {
         companyAddress: "123 Business Street, City, State, PIN",
         companyDescription:
           "At TrusComp, we transform complex labor law compliance and regulatory challenges into seamless solutions, empowering businesses to focus on growth and  innovation. With cuttingedge technology, unmatched expertise, and a steadfast commitment to trust, transparency, and transformation, we ensure your compliance needs are met efficiently and effectively.",
+        companyLogo: "/images/logo/logo.webp",
       });
     }
 
@@ -46,6 +47,7 @@ export const updateGeneralSettings = async (req, res) => {
       companyPhone,
       companyAddress,
       companyDescription,
+      companyLogo,
     } = req.body;
 
     // Validate required fields
@@ -88,6 +90,7 @@ export const updateGeneralSettings = async (req, res) => {
         companyPhone,
         companyAddress,
         companyDescription,
+        companyLogo: companyLogo || null,
         lastUpdatedBy: req.user.id,
       });
     } else {
@@ -100,6 +103,9 @@ export const updateGeneralSettings = async (req, res) => {
       settings.companyPhone = companyPhone;
       settings.companyAddress = companyAddress;
       settings.companyDescription = companyDescription;
+      if (companyLogo !== undefined) {
+        settings.companyLogo = companyLogo;
+      }
 
       settings.lastUpdatedBy = req.user.id;
 
@@ -219,7 +225,7 @@ export const updateGeneralSettings = async (req, res) => {
 export const getPublicSettings = async (req, res) => {
   try {
     const generalSettings = await GeneralSettings.findOne({ settingsId: "global" }).select(
-        "companyName companyEmail companyPhone companyAddress companyDescription"
+        "companyName companyEmail companyPhone companyAddress companyDescription companyLogo"
     );
 
     // Combine all settings or return defaults
@@ -233,6 +239,7 @@ export const getPublicSettings = async (req, res) => {
       companyDescription:
         generalSettings?.companyDescription ||
         "A transparent, automated MLM system built on Binary + PV earning model",
+      companyLogo: generalSettings?.companyLogo || '/images/logo/logo.webp',
     };
 
     return res.status(200).json({

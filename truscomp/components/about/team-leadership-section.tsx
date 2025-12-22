@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { GridPattern } from "@/components/ui/grid-pattern";
 
-const leadership = [
+const defaultLeadership = [
   {
     name: "Mr. C. Sreetharan",
     role: "Chief Operating Officer",
@@ -27,7 +27,23 @@ const leadership = [
   },
 ];
 
-export default function TeamLeadershipSection() {
+interface TeamLeadershipSectionProps {
+  data?: {
+    leadershipTitle?: string;
+    leadershipSubtitle?: string;
+    leadership?: Array<{
+      name: string;
+      role: string;
+      bio: string;
+      image: string;
+    }>;
+  } | null;
+}
+
+export default function TeamLeadershipSection({ data }: TeamLeadershipSectionProps) {
+  const title = data?.leadershipTitle || "Our Leadership Team";
+  const subtitle = data?.leadershipSubtitle || "Experienced professionals driving excellence in compliance management";
+  const leadership = data?.leadership || defaultLeadership;
   return (
     <section className="py-24 md:py-32 bg-background relative overflow-hidden">
       {/* Grid Pattern Background */}
@@ -49,11 +65,10 @@ export default function TeamLeadershipSection() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h3 className="text-lg font-medium text-primary mb-2">Leadership</h3>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-            Our Leadership Team
+            {title}
           </h2>
           <p className="mt-6 text-lg text-muted-foreground">
-            Experienced professionals driving excellence in compliance
-            management
+            {subtitle}
           </p>
         </div>
 

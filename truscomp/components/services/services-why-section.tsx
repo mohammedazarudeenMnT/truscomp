@@ -4,8 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Layers, Cpu, TrendingUp } from "lucide-react";
 import { GridPattern } from "@/components/ui/grid-pattern";
-
-import { getIcon } from "@/lib/icon-map";
+import { getIconComponent } from "@/lib/icons";
 
 interface PageSettings {
   whySection?: {
@@ -23,32 +22,35 @@ interface ServicesWhySectionProps {
   pageSettings?: PageSettings | null;
 }
 
-export default function ServicesWhySection({ pageSettings }: ServicesWhySectionProps) {
+export default function ServicesWhySection({
+  pageSettings,
+}: ServicesWhySectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: false, amount: 0.3 });
 
   // Use dynamic features or fallback to default
-  const features = pageSettings?.whySection?.features?.length ? 
-    pageSettings.whySection.features : [
-    {
-      icon: "Layers",
-      title: "Scalable Solutions",
-      description:
-        "Tailored to fit businesses of all sizes, from SMEs to large enterprises.",
-    },
-    {
-      icon: "Cpu",
-      title: "Innovative Tools",
-      description:
-        "Utilize cutting-edge technology, including QR code integrations for audits and self-service dashboards, to streamline compliance.",
-    },
-    {
-      icon: "TrendingUp",
-      title: "Proven ROI",
-      description:
-        "Achieve compliance while enhancing operational efficiency, ensuring measurable returns on investment.",
-    },
-  ];
+  const features = pageSettings?.whySection?.features?.length
+    ? pageSettings.whySection.features
+    : [
+        {
+          icon: "Layers",
+          title: "Scalable Solutions",
+          description:
+            "Tailored to fit businesses of all sizes, from SMEs to large enterprises.",
+        },
+        {
+          icon: "Cpu",
+          title: "Innovative Tools",
+          description:
+            "Utilize cutting-edge technology, including QR code integrations for audits and self-service dashboards, to streamline compliance.",
+        },
+        {
+          icon: "TrendingUp",
+          title: "Proven ROI",
+          description:
+            "Achieve compliance while enhancing operational efficiency, ensuring measurable returns on investment.",
+        },
+      ];
 
   return (
     <section
@@ -81,22 +83,23 @@ export default function ServicesWhySection({ pageSettings }: ServicesWhySectionP
             {pageSettings?.whySection?.title || "Why TrusComp?"}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {pageSettings?.whySection?.subtitle || "Experience the TrusComp advantage with solutions designed for excellence."}
+            {pageSettings?.whySection?.subtitle ||
+              "Experience the TrusComp advantage with solutions designed for excellence."}
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {features.map((feature, index) => {
-            const IconComponent = getIcon(feature.icon);
-            
+            const IconComponent = getIconComponent(feature.icon) || Layers;
 
-            
             return (
               <motion.div
                 key={index}
                 className="bg-background border rounded-xl p-8 text-center group hover:shadow-xl transition-all duration-300"
                 initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                animate={
+                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+                }
                 transition={{ duration: 0.6, delay: index * 0.2 }}
                 whileHover={{ y: -10, scale: 1.02 }}
               >

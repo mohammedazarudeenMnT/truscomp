@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { CompanyLogo } from "@/components/ui/company-logo";
 
 const footerLinks = [
   {
@@ -82,15 +83,7 @@ export const Footer: React.FC = () => {
           {/* Brand Section */}
           <div className="col-span-2">
             <Link href="/" className="flex items-center mb-4">
-              <div className="relative h-30 w-36">
-                <Image
-                  src="/images/logo/logo.webp"
-                  alt="TrusComp Logo"
-                  fill
-                  className="object-contain"
-                  sizes="64px"
-                />
-              </div>
+              <CompanyLogo width={144} height={120} />
             </Link>
             <p className="text-sm text-muted-foreground mb-4 max-w-xs">
               Your trusted partner in compliance management. Simplifying

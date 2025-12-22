@@ -5,10 +5,21 @@ import AnimatedSections from "@/components/ui/animated-sections-1";
 
 interface HeroSectionProps {
   className?: string;
+  data?: {
+    sections: Array<{
+      title: string;
+      text: string;
+      description: string;
+      buttonText: string;
+      buttonLink: string;
+      img: string;
+    }>;
+  };
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ className }) => {
-  const complianceSections = [
+export const HeroSection: React.FC<HeroSectionProps> = ({ className, data }) => {
+  // Default sections as fallback
+  const defaultSections = [
     {
       title: "Welcome to TrusComp",
       text: "Comprehensive Compliance Solutions",
@@ -43,9 +54,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className }) => {
     }
   ];
 
+  const sections = data?.sections || defaultSections;
+
   return (
     <section className={`${className}`}>
-      <AnimatedSections sections={complianceSections} />
+      <AnimatedSections sections={sections} />
     </section>
   );
 };

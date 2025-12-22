@@ -87,7 +87,10 @@ export default function BlogListClient({
 
       const queryString = newParams.toString();
       router.push(
-        `/resources/blogs-brand-and-service${queryString ? `?${queryString}` : ""}`
+        `/resources/blogs-brand-and-service${
+          queryString ? `?${queryString}` : ""
+        }`,
+        { scroll: false }
       );
     },
     [router, searchParams]
@@ -111,7 +114,8 @@ export default function BlogListClient({
     updateUrl({ search: "", category: "" });
   };
 
-  const featuredPost = initialPosts.find((p) => p.isFeatured) || initialPosts[0];
+  const featuredPost =
+    initialPosts.find((p) => p.isFeatured) || initialPosts[0];
   const otherPosts = initialPosts.filter((p) => p._id !== featuredPost?._id);
 
   const getImageUrl = (post: BlogPost) => {
@@ -136,19 +140,6 @@ export default function BlogListClient({
 
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="flex flex-col items-center text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-md px-4 py-2 text-sm mb-8">
-                <Sparkles className="w-4 h-4 text-primary" />
-                <span className="text-primary font-medium">
-                  Expert Insights & Resources
-                </span>
-              </div>
-            </motion.div>
-
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -244,7 +235,9 @@ export default function BlogListClient({
         {/* Active Filters */}
         {hasActiveFilters && (
           <div className="mt-6 flex items-center gap-3">
-            <span className="text-sm text-muted-foreground">Active filters:</span>
+            <span className="text-sm text-muted-foreground">
+              Active filters:
+            </span>
             {initialSearch && (
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm">
                 Search: {initialSearch}
@@ -292,7 +285,9 @@ export default function BlogListClient({
               >
                 <div className="flex items-center justify-between mb-8">
                   <div>
-                    <h2 className="text-3xl font-bold mb-2">Featured Article</h2>
+                    <h2 className="text-3xl font-bold mb-2">
+                      Featured Article
+                    </h2>
                     <p className="text-muted-foreground">
                       Our top pick for this week
                     </p>
@@ -302,13 +297,16 @@ export default function BlogListClient({
                   post={{
                     tag: featuredPost.category || "General",
                     date: featuredPost.publishedAt
-                      ? new Date(featuredPost.publishedAt).toLocaleDateString()
+                      ? new Date(featuredPost.publishedAt).toLocaleDateString(
+                          "en-US",
+                          { year: "numeric", month: "2-digit", day: "2-digit" }
+                        )
                       : "Draft",
                     title: featuredPost.title,
-                    description: featuredPost.description || featuredPost.subtitle || "",
+                    description:
+                      featuredPost.description || featuredPost.subtitle || "",
                     imageUrl: getImageUrl(featuredPost),
                     href: `/resources/blogs-brand-and-service/${featuredPost.slug}`,
-                    readTime: "5 min read",
                   }}
                   variant="featured"
                 />
@@ -329,7 +327,9 @@ export default function BlogListClient({
                   </h2>
                   <p className="text-muted-foreground">
                     {pagination?.total
-                      ? `${pagination.total} article${pagination.total !== 1 ? "s" : ""} found`
+                      ? `${pagination.total} article${
+                          pagination.total !== 1 ? "s" : ""
+                        } found`
                       : "Explore our complete collection"}
                   </p>
                 </div>
@@ -344,13 +344,19 @@ export default function BlogListClient({
                     post={{
                       tag: post.category || "General",
                       date: post.publishedAt
-                        ? new Date(post.publishedAt).toLocaleDateString()
+                        ? new Date(post.publishedAt).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            }
+                          )
                         : "Draft",
                       title: post.title,
                       description: post.description || post.subtitle || "",
                       imageUrl: getImageUrl(post),
                       href: `/resources/blogs-brand-and-service/${post.slug}`,
-                      readTime: "5 min read",
                     }}
                     variant="default"
                   />
@@ -372,7 +378,9 @@ export default function BlogListClient({
                     (pageNum) => (
                       <Button
                         key={pageNum}
-                        variant={pageNum === currentPage ? "default" : "outline"}
+                        variant={
+                          pageNum === currentPage ? "default" : "outline"
+                        }
                         size="icon"
                         onClick={() => updateUrl({ page: pageNum })}
                       >

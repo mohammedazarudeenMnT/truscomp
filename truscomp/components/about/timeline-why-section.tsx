@@ -3,8 +3,7 @@
 import { Check } from "lucide-react";
 import { GridPattern } from "@/components/ui/grid-pattern";
 
-export default function TimelineWhySection() {
-  const benefits = [
+const defaultBenefits = [
     {
       title: "Seamless Transition",
       description:
@@ -27,6 +26,22 @@ export default function TimelineWhySection() {
     },
   ];
 
+interface TimelineWhySectionProps {
+  data?: {
+    title?: string;
+    subtitle?: string;
+    benefits?: Array<{
+      title: string;
+      description: string;
+    }>;
+  } | null;
+}
+
+export default function TimelineWhySection({ data }: TimelineWhySectionProps) {
+  const title = data?.title || "Why Choose TrusComp's Phased Approach?";
+  const subtitle = data?.subtitle || "Our proven methodology delivers results with minimal risk and maximum efficiency.";
+  const benefits = data?.benefits || defaultBenefits;
+
   return (
     <section className="py-20 lg:py-32 bg-background relative overflow-hidden">
       {/* Grid Pattern Background */}
@@ -48,11 +63,10 @@ export default function TimelineWhySection() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-5xl font-bold mb-4">
-              Why Choose TrusComp&apos;s Phased Approach?
+              {title}
             </h2>
             <p className="text-lg text-muted-foreground">
-              Our proven methodology delivers results with minimal risk and
-              maximum efficiency.
+              {subtitle}
             </p>
           </div>
 
