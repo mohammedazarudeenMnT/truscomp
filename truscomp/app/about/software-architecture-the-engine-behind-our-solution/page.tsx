@@ -90,7 +90,6 @@ export default async function SoftwareArchitecturePage() {
       "/api/about-page-settings/software-architecture",
       {
         headers: { "Cache-Control": "no-cache, no-store, must-revalidate" },
-        timeout: 10000,
       }
     );
     pageData = response.data?.success ? response.data.data : null;
@@ -153,7 +152,7 @@ export default async function SoftwareArchitecturePage() {
         <ArchFeaturesSection data={pageData?.features} />
         <ArchBenefitsSection data={pageData?.benefits} />
         <ArchWhySection data={pageData?.why} />
-        <ArchFaqSection data={pageData?.faqs} />
+        <ArchFaqSection data={pageData?.faq} />
         <ArchCtaSection data={pageData?.cta} />
       </main>
     </>

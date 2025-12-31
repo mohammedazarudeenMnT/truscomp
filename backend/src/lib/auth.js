@@ -100,6 +100,7 @@ export const initAuth = () => {
     trustedOrigins: [
       process.env.FRONTEND_URL,
       "https://kk5n0x75-3000.inc1.devtunnels.ms",
+      "https://kk5n0x75-3001.inc1.devtunnels.ms",
     ],
   });
 

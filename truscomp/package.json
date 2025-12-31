@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@gsap/react": "^2.1.2",
     "@lexical/clipboard": "^0.39.0",
     "@lexical/code": "^0.39.0",
     "@lexical/history": "^0.39.0",

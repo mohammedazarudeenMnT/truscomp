@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { GridPattern } from "@/components/ui/grid-pattern";
-import { getIconComponent } from "@/lib/icons";
+import { getIconComponent } from "@/components/ui/icon-selector";
 
 const IMG_PADDING = 12;
 

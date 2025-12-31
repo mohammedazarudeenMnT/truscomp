@@ -38,7 +38,7 @@ interface TimelineFaqSectionProps {
     subtitle?: string;
     description?: string;
     image?: string;
-    faqs?: Array<{
+    items?: Array<{
       question: string;
       answer: string;
     }>;
@@ -51,7 +51,7 @@ export default function TimelineFaqSection({ data }: TimelineFaqSectionProps) {
   const subtitle = data?.subtitle || "";
   const description = data?.description || "Find answers to common questions about our implementation process.";
   const image = data?.image || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=830&h=844&auto=format&fit=crop";
-  const faqs = data?.faqs || defaultFaqs;
+  const faqs = data?.items || defaultFaqs;
 
   return (
     <FaqComponent

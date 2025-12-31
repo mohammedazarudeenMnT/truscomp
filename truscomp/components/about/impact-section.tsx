@@ -34,9 +34,11 @@ interface ImpactSectionProps {
     title?: string;
     subtitle?: string;
     stats?: Array<{
-      title: string;
+      name?: string;
+      title?: string;
       description: string;
       icon?: string;
+      className?: string;
     }>;
   } | null;
 }
@@ -51,10 +53,11 @@ export default function ImpactSection({ data }: ImpactSectionProps) {
     data?.stats?.map((stat, index) => {
       const IconComponent = getIconComponent(stat.icon) || Star;
       return {
-        name: stat.title,
+        name: stat.name || stat.title,
         description: stat.description,
         icon: IconComponent,
-        className: defaultStats[index % defaultStats.length].className,
+        className:
+          stat.className || defaultStats[index % defaultStats.length].className,
       };
     }) ||
     defaultStats.map((s) => ({

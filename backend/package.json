@@ -7,7 +7,13 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "seed:blogs": "node src/scripts/seedBlogs.js"
+    "seed:blogs": "node src/scripts/seedBlogs.js",
+    "seed:home-page": "node src/scripts/seedHomePageData.js",
+    "seed:about-page": "node src/scripts/seedAboutPageData.js",
+    "seed:vision-mission": "node src/scripts/seedVisionMissionPageData.js",
+    "seed:our-team": "node src/scripts/seedOurTeamPageData.js",
+    "seed:software-architecture": "node src/scripts/seedSoftwareArchitecturePageData.js",
+    "seed:timelines": "node src/scripts/seedTimelinesPageData.js"
   },
   "dependencies": {
     "better-auth": "^1.4.7",

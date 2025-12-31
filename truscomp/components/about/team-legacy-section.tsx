@@ -17,7 +17,7 @@ interface TeamLegacySectionProps {
         title?: string;
         description?: string;
         buttonText?: string;
-        buttonHref?: string;
+        buttonLink?: string;
         highlights?: string[];
     } | null;
 }
@@ -26,7 +26,7 @@ export default function TeamLegacySection({ data }: TeamLegacySectionProps) {
     const title = data?.title || "A Legacy of Excellence";
     const description = data?.description || "With a legacy of excellence and a team of seasoned leaders, TrusComp delivers unmatched service and expertise. Join our team of compliance experts and be part of transforming how businesses approach regulatory challenges.";
     const buttonText = data?.buttonText || "Join Our Team";
-    const buttonHref = data?.buttonHref || "/careers";
+    const buttonHref = data?.buttonLink || "/careers";
     const highlights = data?.highlights || defaultHighlights;
 
     return (

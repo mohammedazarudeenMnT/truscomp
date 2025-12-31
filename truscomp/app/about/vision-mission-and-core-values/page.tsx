@@ -81,10 +81,12 @@ export default async function VisionMissionPage() {
   let pageData = null;
 
   try {
-    const response = await axiosInstance.get("/api/about-page-settings/vision-mission", {
-      headers: { "Cache-Control": "no-cache, no-store, must-revalidate" },
-      timeout: 10000,
-    });
+    const response = await axiosInstance.get(
+      "/api/about-page-settings/vision-mission",
+      {
+        headers: { "Cache-Control": "no-cache, no-store, must-revalidate" },
+      }
+    );
     pageData = response.data?.success ? response.data.data : null;
   } catch (error) {
     console.error("Error fetching vision-mission page data:", error);
@@ -146,7 +148,7 @@ export default async function VisionMissionPage() {
         <VisionHeroSection data={pageData?.hero} />
         <VisionMissionSection data={pageData?.visionMission} />
         <ValuesSection data={pageData?.values} />
-        <VisionFAQSection data={pageData?.faqs} />
+        <VisionFAQSection data={pageData?.faq} />
         <JoinCTASection data={pageData?.cta} />
       </main>
     </>

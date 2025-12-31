@@ -61,10 +61,11 @@ interface ValuesSectionProps {
   data?: {
     title?: string;
     subtitle?: string;
-    values?: Array<{
+    items?: Array<{
       title: string;
       description: string;
       icon?: string;
+      className?: string;
     }>;
   } | null;
 }
@@ -76,13 +77,13 @@ export default function ValuesSection({ data }: ValuesSectionProps) {
     "The core principles that define who we are and how we operate.";
 
   const values =
-    data?.values?.map((value, index) => {
+    data?.items?.map((value, index) => {
       const IconComponent = getIconComponent(value.icon) || ShieldCheck;
       return {
         title: value.title,
         description: value.description,
         icon: IconComponent,
-        className: defaultValues[index % defaultValues.length].className,
+        className: value.className || defaultValues[index % defaultValues.length].className,
       };
     }) ||
     defaultValues.map((v) => ({

@@ -158,8 +158,6 @@ export default function ContactPage() {
               "Yes, click on Request a Demo to experience how our solutions can simplify compliance for your organization.",
           },
         ]}
-        image="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=500&fit=crop&crop=center"
-        layout="with-image"
       />
     </div>
   );

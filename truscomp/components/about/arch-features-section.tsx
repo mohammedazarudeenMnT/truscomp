@@ -45,8 +45,15 @@ const defaultFeatures = [
 
 interface ArchFeaturesSectionProps {
   data?: {
+    title?: string;
     featuresTitle?: string;
+    subtitle?: string;
     featuresSubtitle?: string;
+    items?: Array<{
+      title: string;
+      description: string;
+      icon?: string;
+    }>;
     features?: Array<{
       title: string;
       description: string;
@@ -58,12 +65,13 @@ interface ArchFeaturesSectionProps {
 export default function ArchFeaturesSection({
   data,
 }: ArchFeaturesSectionProps) {
-  const title = data?.featuresTitle || "Key Features";
+  const title = data?.title || data?.featuresTitle || "Key Features";
   const subtitle =
+    data?.subtitle ||
     data?.featuresSubtitle ||
     "Explore the key technological features that make our platform a leader in compliance management";
   const features =
-    data?.features?.map((f) => {
+    (data?.items || data?.features)?.map((f) => {
       const IconComponent = getIconComponent(f.icon) || Cloud;
       return {
         icon: IconComponent,

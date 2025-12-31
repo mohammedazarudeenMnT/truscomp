@@ -6,8 +6,13 @@ import { CtaHero } from "@/components/ui/cta-hero";
 interface AboutCtaSectionProps {
   data?: {
     badge?: string;
+    title?: string;
     heading?: string;
     description?: string;
+    primaryButtonText?: string;
+    primaryButtonLink?: string;
+    secondaryButtonText?: string;
+    secondaryButtonLink?: string;
     buttons?: Array<{
       text: string;
       href: string;
@@ -19,22 +24,30 @@ interface AboutCtaSectionProps {
 }
 
 export const AboutCtaSection: React.FC<AboutCtaSectionProps> = ({ data }) => {
-  const badge = data?.badge || "Ready to Partner?";
-  const heading = data?.heading || "Transform Your Compliance Strategy";
-  const description = data?.description || "Discover how TrusComp's proven methodology has helped hundreds of enterprises streamline their compliance operations. Schedule a consultation to explore your options.";
-  const buttons = data?.buttons || [
-    {
-      text: "Schedule Consultation",
-      href: "/contact",
-      variant: "secondary" as const,
-      icon: "ArrowRight",
-    },
-    {
-      text: "View Case Studies",
-      href: "/case-studies",
-      variant: "outline" as const,
-    },
-  ];
+  const badge = data?.badge ?? "";
+  const heading = data?.title ?? data?.heading ?? "";
+  const description = data?.description ?? "";
+  const buttons =
+    data?.buttons ||
+    (data?.primaryButtonText
+      ? [
+          {
+            text: data.primaryButtonText,
+            href: data.primaryButtonLink ?? "/contact",
+            variant: "secondary" as const,
+            icon: "ArrowRight",
+          },
+          ...(data.secondaryButtonText
+            ? [
+                {
+                  text: data.secondaryButtonText,
+                  href: data.secondaryButtonLink ?? "/contact",
+                  variant: "outline" as const,
+                },
+              ]
+            : []),
+        ]
+      : []);
   const isDark = data?.isDark ?? true;
 
   return (

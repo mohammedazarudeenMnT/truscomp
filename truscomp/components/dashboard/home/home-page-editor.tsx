@@ -8,7 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { IconPicker } from "@/components/ui/icon-picker";
 import { Plus, Trash2, Loader2, Save } from "lucide-react";
@@ -85,7 +91,7 @@ export default function HomePageEditor() {
 
   useEffect(() => {
     fetchData();
-    
+
     // Check for hash in URL to set active tab
     if (typeof window !== "undefined") {
       const hash = window.location.hash.replace("#", "");
@@ -112,7 +118,10 @@ export default function HomePageEditor() {
   const saveSection = async (section: string, sectionData: any) => {
     setSaving(true);
     try {
-      const response = await axiosInstance.put(`/api/home-page-settings/${section}`, sectionData);
+      const response = await axiosInstance.put(
+        `/api/home-page-settings/${section}`,
+        sectionData
+      );
 
       if (response.data.success) {
         toast.success(`${section} section updated successfully`);
@@ -192,7 +201,15 @@ export default function HomePageEditor() {
 }
 
 // Hero Section Editor Component
-function HeroSectionEditor({ data, onSave, saving }: { data: any; onSave: (data: any) => void; saving: boolean }) {
+function HeroSectionEditor({
+  data,
+  onSave,
+  saving,
+}: {
+  data: any;
+  onSave: (data: any) => void;
+  saving: boolean;
+}) {
   const [sections, setSections] = useState<HeroSection[]>(data.sections || []);
 
   const addSection = () => {
@@ -248,7 +265,9 @@ function HeroSectionEditor({ data, onSave, saving }: { data: any; onSave: (data:
                 <Label>Title</Label>
                 <Input
                   value={section.title}
-                  onChange={(e) => updateSection(index, "title", e.target.value)}
+                  onChange={(e) =>
+                    updateSection(index, "title", e.target.value)
+                  }
                   placeholder="Section title"
                 />
               </div>
@@ -266,7 +285,9 @@ function HeroSectionEditor({ data, onSave, saving }: { data: any; onSave: (data:
                 <Label>Description</Label>
                 <Textarea
                   value={section.description}
-                  onChange={(e) => updateSection(index, "description", e.target.value)}
+                  onChange={(e) =>
+                    updateSection(index, "description", e.target.value)
+                  }
                   placeholder="Section description"
                   rows={3}
                 />
@@ -276,7 +297,9 @@ function HeroSectionEditor({ data, onSave, saving }: { data: any; onSave: (data:
                 <Label>Button Text</Label>
                 <Input
                   value={section.buttonText}
-                  onChange={(e) => updateSection(index, "buttonText", e.target.value)}
+                  onChange={(e) =>
+                    updateSection(index, "buttonText", e.target.value)
+                  }
                   placeholder="Button text"
                 />
               </div>
@@ -285,7 +308,9 @@ function HeroSectionEditor({ data, onSave, saving }: { data: any; onSave: (data:
                 <Label>Button Link</Label>
                 <Input
                   value={section.buttonLink}
-                  onChange={(e) => updateSection(index, "buttonLink", e.target.value)}
+                  onChange={(e) =>
+                    updateSection(index, "buttonLink", e.target.value)
+                  }
                   placeholder="Button link"
                 />
               </div>
@@ -318,12 +343,22 @@ function HeroSectionEditor({ data, onSave, saving }: { data: any; onSave: (data:
 }
 
 // Why Section Editor Component
-function WhySectionEditor({ data, onSave, saving }: { data: any; onSave: (data: any) => void; saving: boolean }) {
+function WhySectionEditor({
+  data,
+  onSave,
+  saving,
+}: {
+  data: any;
+  onSave: (data: any) => void;
+  saving: boolean;
+}) {
   const [title, setTitle] = useState(data.title || "");
   const [subtitle, setSubtitle] = useState(data.subtitle || "");
   const [features, setFeatures] = useState<Feature[]>(data.features || []);
   const [stats, setStats] = useState<Stat[]>(data.stats || []);
-  const [trustIndicators, setTrustIndicators] = useState<string[]>(data.trustIndicators || []);
+  const [trustIndicators, setTrustIndicators] = useState<string[]>(
+    data.trustIndicators || []
+  );
 
   const addFeature = () => {
     setFeatures([...features, { icon: "Shield", title: "", description: "" }]);
@@ -340,7 +375,10 @@ function WhySectionEditor({ data, onSave, saving }: { data: any; onSave: (data: 
   };
 
   const addStat = () => {
-    setStats([...stats, { number: "", label: "", className: "bg-primary/5 border-primary/10" }]);
+    setStats([
+      ...stats,
+      { number: "", label: "", className: "bg-primary/5 border-primary/10" },
+    ]);
   };
 
   const removeStat = (index: number) => {
@@ -430,7 +468,9 @@ function WhySectionEditor({ data, onSave, saving }: { data: any; onSave: (data: 
                   <Label>Title</Label>
                   <Input
                     value={feature.title}
-                    onChange={(e) => updateFeature(index, "title", e.target.value)}
+                    onChange={(e) =>
+                      updateFeature(index, "title", e.target.value)
+                    }
                     placeholder="Feature title"
                   />
                 </div>
@@ -439,7 +479,9 @@ function WhySectionEditor({ data, onSave, saving }: { data: any; onSave: (data: 
                   <Label>Description</Label>
                   <Textarea
                     value={feature.description}
-                    onChange={(e) => updateFeature(index, "description", e.target.value)}
+                    onChange={(e) =>
+                      updateFeature(index, "description", e.target.value)
+                    }
                     placeholder="Feature description"
                     rows={2}
                   />
@@ -477,7 +519,9 @@ function WhySectionEditor({ data, onSave, saving }: { data: any; onSave: (data: 
                   <Label>Number</Label>
                   <Input
                     value={stat.number}
-                    onChange={(e) => updateStat(index, "number", e.target.value)}
+                    onChange={(e) =>
+                      updateStat(index, "number", e.target.value)
+                    }
                     placeholder="100+"
                   />
                 </div>
@@ -495,16 +539,26 @@ function WhySectionEditor({ data, onSave, saving }: { data: any; onSave: (data: 
                   <Label>Style Class</Label>
                   <Select
                     value={stat.className}
-                    onValueChange={(value) => updateStat(index, "className", value)}
+                    onValueChange={(value) =>
+                      updateStat(index, "className", value)
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="bg-primary/5 border-primary/10">Light Primary</SelectItem>
-                      <SelectItem value="bg-primary/10 border-primary/20">Medium Primary</SelectItem>
-                      <SelectItem value="bg-secondary/5 border-secondary/10">Light Secondary</SelectItem>
-                      <SelectItem value="bg-secondary/10 border-secondary/20">Medium Secondary</SelectItem>
+                      <SelectItem value="bg-primary/5 border-primary/10">
+                        Light Primary
+                      </SelectItem>
+                      <SelectItem value="bg-primary/10 border-primary/20">
+                        Medium Primary
+                      </SelectItem>
+                      <SelectItem value="bg-secondary/5 border-secondary/10">
+                        Light Secondary
+                      </SelectItem>
+                      <SelectItem value="bg-secondary/10 border-secondary/20">
+                        Medium Secondary
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -543,7 +597,9 @@ function WhySectionEditor({ data, onSave, saving }: { data: any; onSave: (data: 
         </div>
 
         <Button
-          onClick={() => onSave({ title, subtitle, features, stats, trustIndicators })}
+          onClick={() =>
+            onSave({ title, subtitle, features, stats, trustIndicators })
+          }
           disabled={saving}
           className="w-full"
         >
@@ -557,7 +613,15 @@ function WhySectionEditor({ data, onSave, saving }: { data: any; onSave: (data: 
 }
 
 // FAQ Section Editor Component
-function FaqSectionEditor({ data, onSave, saving }: { data: any; onSave: (data: any) => void; saving: boolean }) {
+function FaqSectionEditor({
+  data,
+  onSave,
+  saving,
+}: {
+  data: any;
+  onSave: (data: any) => void;
+  saving: boolean;
+}) {
   const [badge, setBadge] = useState(data.badge || "");
   const [title, setTitle] = useState(data.title || "");
   const [subtitle, setSubtitle] = useState(data.subtitle || "");
@@ -663,7 +727,9 @@ function FaqSectionEditor({ data, onSave, saving }: { data: any; onSave: (data: 
                   <Label>Question</Label>
                   <Input
                     value={item.question}
-                    onChange={(e) => updateFaq(index, "question", e.target.value)}
+                    onChange={(e) =>
+                      updateFaq(index, "question", e.target.value)
+                    }
                     placeholder="Enter question"
                   />
                 </div>
@@ -683,7 +749,9 @@ function FaqSectionEditor({ data, onSave, saving }: { data: any; onSave: (data: 
         </div>
 
         <Button
-          onClick={() => onSave({ badge, title, subtitle, description, image, items })}
+          onClick={() =>
+            onSave({ badge, title, subtitle, description, image, items })
+          }
           disabled={saving}
           className="w-full"
         >
@@ -697,49 +765,54 @@ function FaqSectionEditor({ data, onSave, saving }: { data: any; onSave: (data: 
 }
 
 // CTA Section Editor Component
-function CtaSectionEditor({ data, onSave, saving }: { data: any; onSave: (data: any) => void; saving: boolean }) {
-  const [badge, setBadge] = useState(data.badge || "");
-  const [heading, setHeading] = useState(data.heading || "");
+function CtaSectionEditor({
+  data,
+  onSave,
+  saving,
+}: {
+  data: any;
+  onSave: (data: any) => void;
+  saving: boolean;
+}) {
+  const [imageSrc, setImageSrc] = useState(data.imageSrc || "");
+  const [title, setTitle] = useState(data.title || "");
+  const [subtitle, setSubtitle] = useState(data.subtitle || "");
   const [description, setDescription] = useState(data.description || "");
-  const [isDark, setIsDark] = useState(data.isDark || false);
-  const [buttons, setButtons] = useState<Button[]>(data.buttons || []);
-
-  const addButton = () => {
-    setButtons([...buttons, { text: "", href: "", variant: "primary", icon: "" }]);
-  };
-
-  const removeButton = (index: number) => {
-    setButtons(buttons.filter((_, i) => i !== index));
-  };
-
-  const updateButton = (index: number, field: string, value: string) => {
-    const updated = [...buttons];
-    updated[index] = { ...updated[index], [field]: value };
-    setButtons(updated);
-  };
+  const [buttonText, setButtonText] = useState(data.buttonText || "");
+  const [buttonLink, setButtonLink] = useState(data.buttonLink || "");
 
   return (
     <Card className="p-6">
-      <h3 className="text-lg font-semibold mb-6">CTA Section</h3>
+      <h3 className="text-lg font-semibold mb-6">CTA Card Section</h3>
 
       <div className="space-y-6">
+        {/* Image Upload */}
+        <div className="space-y-2">
+          <Label>CTA Image</Label>
+          <ImageUpload
+            value={imageSrc}
+            onChange={setImageSrc}
+            placeholder="Upload CTA image"
+          />
+        </div>
+
         {/* Basic Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label>Badge</Label>
+            <Label>Title</Label>
             <Input
-              value={badge}
-              onChange={(e) => setBadge(e.target.value)}
-              placeholder="Ready to Get Started?"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="CTA Title"
             />
           </div>
 
-          <div className="space-y-2">
-            <Label>Heading</Label>
+          <div className="md:col-span-2 space-y-2">
+            <Label>Subtitle</Label>
             <Input
-              value={heading}
-              onChange={(e) => setHeading(e.target.value)}
-              placeholder="Transform Your Compliance Journey Today"
+              value={subtitle}
+              onChange={(e) => setSubtitle(e.target.value)}
+              placeholder="CTA Subtitle"
             />
           </div>
 
@@ -748,100 +821,47 @@ function CtaSectionEditor({ data, onSave, saving }: { data: any; onSave: (data: 
             <Textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Section description"
+              placeholder="CTA description"
               rows={3}
             />
           </div>
 
-          <div className="flex items-center gap-2">
-            <Switch
-              id="isDark"
-              checked={isDark}
-              onCheckedChange={setIsDark}
+          <div className="space-y-2">
+            <Label>Button Text</Label>
+            <Input
+              value={buttonText}
+              onChange={(e) => setButtonText(e.target.value)}
+              placeholder="Get Started"
             />
-            <Label htmlFor="isDark">Dark theme</Label>
-          </div>
-        </div>
-
-        {/* Buttons */}
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h4 className="font-medium">Buttons</h4>
-            <Button onClick={addButton} size="sm">
-              <Plus className="w-4 h-4 mr-2" />
-              Add Button
-            </Button>
           </div>
 
-          {buttons.map((button, index) => (
-            <div key={index} className="border rounded-lg p-4 space-y-4">
-              <div className="flex justify-between items-center">
-                <h5 className="font-medium">Button {index + 1}</h5>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => removeButton(index)}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="space-y-2">
-                  <Label>Text</Label>
-                  <Input
-                    value={button.text}
-                    onChange={(e) => updateButton(index, "text", e.target.value)}
-                    placeholder="Button text"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Link</Label>
-                  <Input
-                    value={button.href}
-                    onChange={(e) => updateButton(index, "href", e.target.value)}
-                    placeholder="/contact"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Variant</Label>
-                  <Select
-                    value={button.variant}
-                    onValueChange={(value) => updateButton(index, "variant", value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="primary">Primary</SelectItem>
-                      <SelectItem value="secondary">Secondary</SelectItem>
-                      <SelectItem value="outline">Outline</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Icon</Label>
-                  <IconPicker
-                    value={button.icon}
-                    onChange={(value) => updateButton(index, "icon", value)}
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
+          <div className="space-y-2">
+            <Label>Button Link</Label>
+            <Input
+              value={buttonLink}
+              onChange={(e) => setButtonLink(e.target.value)}
+              placeholder="/contact"
+            />
+          </div>
         </div>
 
         <Button
-          onClick={() => onSave({ badge, heading, description, buttons, isDark })}
+          onClick={() =>
+            onSave({
+              imageSrc,
+              title,
+              subtitle,
+              description,
+              buttonText,
+              buttonLink,
+            })
+          }
           disabled={saving}
           className="w-full"
         >
           {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
           <Save className="w-4 h-4 mr-2" />
-          Save CTA Section
+          Save CTA Card Section
         </Button>
       </div>
     </Card>

@@ -671,6 +671,20 @@ function getDefaultSettingsForPage(pageKey) {
       baseSettings.hero.badge = "Our Purpose";
       baseSettings.hero.title = "Vision, Mission & Core Values";
       baseSettings.hero.description = "The principles that guide everything we do.";
+      baseSettings.hero.buttons = [
+        {
+          text: "Get Started",
+          href: "/contact",
+          icon: "Target",
+          variant: "default",
+        },
+        {
+          text: "Learn More",
+          href: "/about",
+          icon: "ArrowRight",
+          variant: "outline",
+        },
+      ];
       baseSettings.visionMission = {
         vision: {
           badge: "Our Vision",

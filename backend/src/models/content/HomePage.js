@@ -19,7 +19,8 @@ const homePageSettingsSchema = new mongoose.Schema(
           description: {
             type: String,
             required: true,
-            default: "Transforming regulatory adherence through innovation and expertise.",
+            default:
+              "Transforming regulatory adherence through innovation and expertise.",
           },
           buttonText: {
             type: String,
@@ -107,7 +108,8 @@ const homePageSettingsSchema = new mongoose.Schema(
       },
       image: {
         type: String,
-        default: "https://images.unsplash.com/photo-1555212697-194d092e3b8f?q=80&w=830&h=844&auto=format&fit=crop",
+        default:
+          "https://images.unsplash.com/photo-1555212697-194d092e3b8f?q=80&w=830&h=844&auto=format&fit=crop",
       },
       items: [
         {
@@ -125,42 +127,30 @@ const homePageSettingsSchema = new mongoose.Schema(
 
     // CTA Section
     cta: {
-      badge: {
+      imageSrc: {
+        type: String,
+        default: "/images/cta-compliance.jpg",
+      },
+      title: {
         type: String,
         default: "Ready to Get Started?",
       },
-      heading: {
+      subtitle: {
         type: String,
         default: "Transform Your Compliance Journey Today",
       },
       description: {
         type: String,
-        default: "Join hundreds of businesses that trust TrusComp for seamless compliance management.",
+        default:
+          "Join hundreds of businesses that trust TrusComp for seamless compliance management.",
       },
-      buttons: [
-        {
-          text: {
-            type: String,
-            required: true,
-          },
-          href: {
-            type: String,
-            required: true,
-          },
-          variant: {
-            type: String,
-            enum: ["primary", "secondary", "outline"],
-            default: "primary",
-          },
-          icon: {
-            type: String,
-            default: "",
-          },
-        },
-      ],
-      isDark: {
-        type: Boolean,
-        default: true,
+      buttonText: {
+        type: String,
+        default: "Get Started Now",
+      },
+      buttonLink: {
+        type: String,
+        default: "/contact",
       },
     },
   },

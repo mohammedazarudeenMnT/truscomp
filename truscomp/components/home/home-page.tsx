@@ -44,16 +44,12 @@ interface HomePageData {
     }>;
   };
   cta: {
-    badge: string;
-    heading: string;
+    imageSrc: string;
+    title: string;
+    subtitle: string;
     description: string;
-    buttons: Array<{
-      text: string;
-      href: string;
-      variant: "primary" | "secondary" | "outline";
-      icon: string;
-    }>;
-    isDark: boolean;
+    buttonText: string;
+    buttonLink: string;
   };
 }
 
@@ -69,13 +65,14 @@ export const HomePage: React.FC<HomePageProps> = ({ initialData }) => {
           <div className="flex">
             <div className="ml-3">
               <p className="text-sm text-yellow-700">
-                This page works best with JavaScript enabled. Some interactive features may not work properly.
+                This page works best with JavaScript enabled. Some interactive
+                features may not work properly.
               </p>
             </div>
           </div>
         </div>
       </noscript>
-      
+
       <HeroSection data={initialData?.hero} />
       <WhyChooseSection data={initialData?.whySection} />
       <FaqSection data={initialData?.faq} />

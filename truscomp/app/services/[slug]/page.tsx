@@ -63,26 +63,25 @@ interface ServiceDetail {
 }
 
 // Force dynamic rendering and disable caching
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 async function getServiceBySlug(slug: string): Promise<ServiceDetail | null> {
   try {
     // Validate slug parameter
-    if (!slug || typeof slug !== 'string') {
-      console.error('Invalid slug parameter:', slug);
+    if (!slug || typeof slug !== "string") {
+      console.error("Invalid slug parameter:", slug);
       return null;
     }
 
     const response = await axiosInstance.get(`/api/services/slug/${slug}`, {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        "Cache-Control": "no-cache, no-store, must-revalidate",
       },
-      timeout: 10000, // 10 second timeout
     });
     return response.data?.success ? response.data.data : null;
   } catch (error) {
-    console.error('Error fetching service:', error);
+    console.error("Error fetching service:", error);
     return null;
   }
 }
@@ -94,18 +93,19 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   let service = null;
-  
+
   try {
     const resolvedParams = await params;
     service = await getServiceBySlug(resolvedParams.slug);
   } catch (error) {
-    console.error('Error generating service metadata:', error);
+    console.error("Error generating service metadata:", error);
   }
 
   if (!service) {
     return {
       title: "Service Not Found | TrusComp",
-      description: "The service you're looking for doesn't exist or has been removed.",
+      description:
+        "The service you're looking for doesn't exist or has been removed.",
       robots: {
         index: false,
         follow: false,
@@ -113,12 +113,11 @@ export async function generateMetadata({
     };
   }
 
-
-
   // Create structured description
-  const description = service.heroDescription.length > 160 
-    ? service.heroDescription.substring(0, 157) + "..."
-    : service.heroDescription;
+  const description =
+    service.heroDescription.length > 160
+      ? service.heroDescription.substring(0, 157) + "..."
+      : service.heroDescription;
 
   // Generate dynamic keywords from service content
   const dynamicKeywords = [
@@ -126,8 +125,8 @@ export async function generateMetadata({
     "compliance services",
     "labor law compliance",
     "TrusComp",
-    ...service.keyFeatures.slice(0, 3).map(f => f.title.toLowerCase()),
-    ...service.benefits.slice(0, 2).map(b => b.title.toLowerCase()),
+    ...service.keyFeatures.slice(0, 3).map((f) => f.title.toLowerCase()),
+    ...service.benefits.slice(0, 2).map((b) => b.title.toLowerCase()),
   ];
 
   return {
@@ -140,14 +139,16 @@ export async function generateMetadata({
       type: "website",
       url: `https://truscomp.com/services/${service.slug}`,
       siteName: "TrusComp",
-      images: service.heroImage ? [
-        {
-          url: service.heroImage,
-          width: 1200,
-          height: 630,
-          alt: service.heroTitle,
-        }
-      ] : [],
+      images: service.heroImage
+        ? [
+            {
+              url: service.heroImage,
+              width: 1200,
+              height: 630,
+              alt: service.heroTitle,
+            },
+          ]
+        : [],
     },
     twitter: {
       card: "summary_large_image",
@@ -164,9 +165,9 @@ export async function generateMetadata({
       googleBot: {
         index: true,
         follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
       },
     },
   };
@@ -188,133 +189,168 @@ export default async function ServiceDetailPage({
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": service.heroTitle,
-    "description": service.heroDescription,
-    "provider": {
+    name: service.heroTitle,
+    description: service.heroDescription,
+    provider: {
       "@type": "Organization",
-      "name": "TrusComp",
-      "url": "https://truscomp.com"
+      name: "TrusComp",
+      url: "https://truscomp.com",
     },
-    "areaServed": {
+    areaServed: {
       "@type": "Country",
-      "name": "India"
+      name: "India",
     },
-    "serviceType": "Compliance Management",
-    "url": `https://truscomp.com/services/${service.slug}`,
+    serviceType: "Compliance Management",
+    url: `https://truscomp.com/services/${service.slug}`,
     ...(service.heroImage && {
-      "image": service.heroImage
+      image: service.heroImage,
     }),
     ...(service.keyFeatures.length > 0 && {
-      "hasOfferCatalog": {
+      hasOfferCatalog: {
         "@type": "OfferCatalog",
-        "name": "Key Features",
-        "itemListElement": service.keyFeatures.map((feature) => ({
+        name: "Key Features",
+        itemListElement: service.keyFeatures.map((feature) => ({
           "@type": "Offer",
-          "itemOffered": {
+          itemOffered: {
             "@type": "Service",
-            "name": feature.title,
-            "description": feature.description
-          }
-        }))
-      }
+            name: feature.title,
+            description: feature.description,
+          },
+        })),
+      },
     }),
     ...(service.faqs.length > 0 && {
-      "mainEntity": service.faqs.map(faq => ({
+      mainEntity: service.faqs.map((faq) => ({
         "@type": "Question",
-        "name": faq.question,
-        "acceptedAnswer": {
+        name: faq.question,
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": faq.answer
-        }
-      }))
-    })
+          text: faq.answer,
+        },
+      })),
+    }),
   };
 
   const breadcrumbData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://truscomp.com"
+        position: 1,
+        name: "Home",
+        item: "https://truscomp.com",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Services",
-        "item": "https://truscomp.com/services"
+        position: 2,
+        name: "Services",
+        item: "https://truscomp.com/services",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": service.heroTitle,
-        "item": `https://truscomp.com/services/${service.slug}`
-      }
-    ]
+        position: 3,
+        name: service.heroTitle,
+        item: `https://truscomp.com/services/${service.slug}`,
+      },
+    ],
   };
 
   // Default section config if not provided
   const defaultSectionConfig = {
-    keyFeatures: { enabled: true, order: 1, title: "Key Features", subtitle: "" },
+    keyFeatures: {
+      enabled: true,
+      order: 1,
+      title: "Key Features",
+      subtitle: "",
+    },
     benefits: { enabled: true, order: 2, title: "Benefits", subtitle: "" },
-    whyChoose: { enabled: true, order: 3, title: "Why Choose Us", subtitle: "" },
-    faqs: { enabled: true, order: 4, title: "FAQs", subtitle: "Common Questions Answered", description: "Get answers to frequently asked questions about our services and how we can help your business." },
+    whyChoose: {
+      enabled: true,
+      order: 3,
+      title: "Why Choose Us",
+      subtitle: "",
+    },
+    faqs: {
+      enabled: true,
+      order: 4,
+      title: "FAQs",
+      subtitle: "Common Questions Answered",
+      description:
+        "Get answers to frequently asked questions about our services and how we can help your business.",
+    },
     cta: { enabled: true, order: 5 },
   };
 
   const sectionConfig = service.sectionConfig || defaultSectionConfig;
 
   // Create section components map
-  const sectionComponents: Record<string, { component: JSX.Element | null; order: number }> = {
+  const sectionComponents: Record<
+    string,
+    { component: JSX.Element | null; order: number }
+  > = {
     keyFeatures: {
-      component: sectionConfig.keyFeatures.enabled && service.keyFeatures.length > 0 ? (
-        <KeyFeaturesSection 
-          features={service.keyFeatures} 
-          title={sectionConfig.keyFeatures.title}
-          subtitle={sectionConfig.keyFeatures.subtitle}
-        />
-      ) : null,
+      component:
+        sectionConfig.keyFeatures.enabled && service.keyFeatures.length > 0 ? (
+          <KeyFeaturesSection
+            features={service.keyFeatures}
+            title={sectionConfig.keyFeatures.title}
+            subtitle={sectionConfig.keyFeatures.subtitle}
+          />
+        ) : null,
       order: sectionConfig.keyFeatures.order,
     },
     benefits: {
-      component: sectionConfig.benefits.enabled && service.benefits.length > 0 ? (
-        <BenefitsSection 
-          benefits={service.benefits}
-          title={sectionConfig.benefits.title}
-          subtitle={sectionConfig.benefits.subtitle}
-        />
-      ) : null,
+      component:
+        sectionConfig.benefits.enabled && service.benefits.length > 0 ? (
+          <BenefitsSection
+            benefits={service.benefits}
+            title={sectionConfig.benefits.title}
+            subtitle={sectionConfig.benefits.subtitle}
+          />
+        ) : null,
       order: sectionConfig.benefits.order,
     },
     whyChoose: {
-      component: sectionConfig.whyChoose.enabled && service.whyChoose.length > 0 ? (
-        <WhyChooseSection 
-          reasons={service.whyChoose}
-          title={sectionConfig.whyChoose.title}
-          subtitle={sectionConfig.whyChoose.subtitle}
-        />
-      ) : null,
+      component:
+        sectionConfig.whyChoose.enabled && service.whyChoose.length > 0 ? (
+          <WhyChooseSection
+            reasons={service.whyChoose}
+            title={sectionConfig.whyChoose.title}
+            subtitle={sectionConfig.whyChoose.subtitle}
+          />
+        ) : null,
       order: sectionConfig.whyChoose.order,
     },
     faqs: {
-      component: sectionConfig.faqs.enabled && service.faqs.length > 0 ? (
-        <FaqSection
-          title={sectionConfig.faqs.title || `${service.heroTitle} FAQs`}
-          subtitle={sectionConfig.faqs.subtitle || "Common Questions Answered"}
-          description={sectionConfig.faqs.description || "Get answers to frequently asked questions about our services and how we can help your business."}
-          faqs={service.faqs}
-        />
-      ) : null,
+      component:
+        sectionConfig.faqs.enabled && service.faqs.length > 0 ? (
+          <FaqSection
+            title={sectionConfig.faqs.title || `${service.heroTitle} FAQs`}
+            subtitle={
+              sectionConfig.faqs.subtitle || "Common Questions Answered"
+            }
+            description={
+              sectionConfig.faqs.description ||
+              "Get answers to frequently asked questions about our services and how we can help your business."
+            }
+            faqs={service.faqs}
+          />
+        ) : null,
       order: sectionConfig.faqs.order,
     },
     cta: {
       component: sectionConfig.cta.enabled ? (
         <CtaHero
           badge={service.cta?.badge || "Ready to Transform Your Compliance?"}
-          heading={service.cta?.heading || `Start Your ${service.heroTitle} Journey Today`}
-          description={service.cta?.description || "Join hundreds of businesses that trust TrusComp for seamless, automated labor law compliance management."}
+          heading={
+            service.cta?.heading ||
+            `Start Your ${service.heroTitle} Journey Today`
+          }
+          description={
+            service.cta?.description ||
+            "Join hundreds of businesses that trust TrusComp for seamless, automated labor law compliance management."
+          }
           buttons={[
             {
               text: service.cta?.primaryButtonText || "Get Started Now",
@@ -351,7 +387,7 @@ export default async function ServiceDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
       />
-      
+
       <div className="min-h-screen bg-background">
         {/* Hero Section - Always visible */}
         <ServiceDetailHero
@@ -359,7 +395,10 @@ export default async function ServiceDetailPage({
           description={service.heroDescription}
           buttonText={service.heroButtonText}
           buttonHref="/contact"
-          backgroundImage={service.heroImage || "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&q=80"}
+          backgroundImage={
+            service.heroImage ||
+            "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&q=80"
+          }
         />
 
         {/* Dynamic Sections - Rendered based on configuration */}

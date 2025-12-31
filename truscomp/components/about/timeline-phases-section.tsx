@@ -109,7 +109,11 @@ const phases = [
 
 interface TimelinePhasesSectionProps {
   data?: {
+    title?: string;
+    subtitle?: string;
+    badge?: string;
     phases?: Array<{
+      number?: string;
       title: string;
       week: string;
       description: string;
@@ -123,8 +127,12 @@ export default function ProjectDeliverySection({ data }: TimelinePhasesSectionPr
   const [activePhase, setActivePhase] = useState(0);
   
   // Use data from API if available, otherwise use default phases
+  const title = data?.title || "Phased Project Delivery";
+  const subtitle = data?.subtitle || "A proven methodology that ensures successful implementation and lasting compliance";
+  const badge = data?.badge || "8-9 weeks implementation timeline";
+  
   const displayPhases = data?.phases?.map((phase, index) => ({
-    number: String(index + 1).padStart(2, '0'),
+    number: phase.number || String(index + 1).padStart(2, '0'),
     title: phase.title,
     week: phase.week,
     description: phase.description,
@@ -147,15 +155,14 @@ export default function ProjectDeliverySection({ data }: TimelinePhasesSectionPr
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm shadow-sm">
             <Clock className="h-4 w-4 text-primary" />
             <span className="text-muted-foreground">
-              8-9 weeks implementation timeline
+              {badge}
             </span>
           </div>
           <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl mb-4">
-            Phased Project Delivery
+            {title}
           </h2>
           <p className="text-lg text-muted-foreground">
-            A proven methodology that ensures successful implementation and
-            lasting compliance
+            {subtitle}
           </p>
         </div>
 

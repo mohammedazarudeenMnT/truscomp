@@ -1,190 +1,191 @@
-"use client";
+import TestimonialsPageClient from "../../components/testimonals/testimonials-page-client";
+import { axiosInstance } from "@/lib/api";
+import type { Metadata } from "next";
+import { cache } from "react";
 
-import { AnimatedTestimonialGrid } from "@/components/testimonals/animated-testimonial-grid";
-import { TestimonialSlider } from "@/components/testimonals/testimonals-slider";
-import { FaqSection } from "@/components/ui/faq-section";
-import { CtaHero } from "@/components/ui/cta-hero";
-import WhyChooseTestimonials from "@/components/testimonals/why-choose-testimonials";
+// Force dynamic rendering and disable caching for development
+// In production, you might want to use ISR with revalidate
+// export const revalidate = 60; // Revalidate every 60 seconds in production
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-export default function ClientTestimonialsPage() {
-  // Testimonial profile images for hero section
-  const testimonials = [
-    { imgSrc: "https://i.pravatar.cc/150?img=1", alt: "Client 1" },
-    { imgSrc: "https://i.pravatar.cc/150?img=2", alt: "Client 2" },
-    { imgSrc: "https://i.pravatar.cc/150?img=3", alt: "Client 3" },
-    { imgSrc: "https://i.pravatar.cc/150?img=4", alt: "Client 4" },
-    { imgSrc: "https://i.pravatar.cc/150?img=5", alt: "Client 5" },
-    { imgSrc: "https://i.pravatar.cc/150?img=6", alt: "Client 6" },
-    { imgSrc: "https://i.pravatar.cc/150?img=7", alt: "Client 7" },
-    { imgSrc: "https://i.pravatar.cc/150?img=8", alt: "Client 8" },
-    { imgSrc: "https://i.pravatar.cc/150?img=9", alt: "Client 9" },
-    { imgSrc: "https://i.pravatar.cc/150?img=10", alt: "Client 10" },
-    { imgSrc: "https://i.pravatar.cc/150?img=11", alt: "Client 11" },
-    { imgSrc: "https://i.pravatar.cc/150?img=12", alt: "Client 12" },
-    { imgSrc: "https://i.pravatar.cc/150?img=13", alt: "Client 13" },
-    { imgSrc: "https://i.pravatar.cc/150?img=14", alt: "Client 14" },
-    { imgSrc: "https://i.pravatar.cc/150?img=15", alt: "Client 15" },
-  ];
+const DEFAULT_SEO = {
+  title: "Client Testimonials | TrusComp Compliance Solutions",
+  description:
+    "Read what our clients say about TrusComp's compliance management solutions. Trusted by industry leaders for seamless compliance and exceptional results.",
+  keywords:
+    "client testimonials, compliance reviews, TrusComp clients, compliance success stories, customer feedback",
+};
 
-  // Reviews data for the testimonial slider
-  const reviews = [
-    {
-      id: 1,
-      name: "Mr. Senthil",
-      affiliation: "HR Lead, Government-Owned Utility Company",
-      quote:
-        "TrusComp's 'Innovative Self-funding Model' significantly improved our compliance process by shifting responsibility to vendors, ensuring smooth and efficient audits. The integration of QR codes streamlined our payment verification process. We achieved 100% compliance rate.",
-      imageSrc:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&h=500&auto=format&fit=crop",
-      thumbnailSrc:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&h=120&auto=format&fit=crop",
-    },
-    {
-      id: 2,
-      name: "Ms. Michele Sereno",
-      affiliation: "HR Director",
-      quote:
-        "Appreciate your prompt support to have this reviewed along with the team. The responsiveness and dedication to our requirements has been outstanding and we truly value the partnership.",
-      imageSrc:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400&h=500&auto=format&fit=crop",
-      thumbnailSrc:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&h=120&auto=format&fit=crop",
-    },
-    {
-      id: 3,
-      name: "Mr. Nikhil Jain",
-      affiliation: "Partner, BCL",
-      quote:
-        "Thanks for sharing the comprehensive document. It covers most of our queries and is prepared with great depth. Your team has done outstanding work preparing and sharing all the details with us.",
-      imageSrc:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&h=500&auto=format&fit=crop",
-      thumbnailSrc:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&h=120&auto=format&fit=crop",
-    },
-    {
-      id: 4,
-      name: "Mr. Noel Fernades",
-      affiliation: "HR Manager, ITC",
-      quote:
-        "You have achieved the impossible and made it possible. Great job; very happy to see the achievement. Your team has done a wonderful job by sharing the attendance of all vendors efficiently.",
-      imageSrc:
-        "https://images.unsplash.com/photo-1507092091211-81342ee5ff30?q=80&w=400&h=500&auto=format&fit=crop",
-      thumbnailSrc:
-        "https://images.unsplash.com/photo-1507092091211-81342ee5ff30?q=80&w=100&h=120&auto=format&fit=crop",
-    },
-    {
-      id: 5,
-      name: "Mr. Parameswaran",
-      affiliation: "HR Manager, Proklearn",
-      quote:
-        "Thank you very much for sharing the valuable compliance report. The detailed analysis and insights provided have significantly improved our understanding of our compliance status.",
-      imageSrc:
-        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&h=500&auto=format&fit=crop",
-      thumbnailSrc:
-        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&h=120&auto=format&fit=crop",
-    },
-  ];
+interface PageSEO {
+  metaTitle?: string;
+  metaDescription?: string;
+  keywords?: string;
+  ogImage?: string;
+}
 
-  // FAQ data
-  const faqs = [
-    {
-      question: "What makes TrusComp's services stand out?",
-      answer:
-        "Our innovative, technology-driven approach ensures seamless compliance management with measurable results, tailored to each client's needs.",
+// Cache the API calls to avoid duplicate requests
+const getPageSEO = cache(async (): Promise<PageSEO | null> => {
+  try {
+    const response = await axiosInstance.get(
+      "/api/page-seo/client-testimonials",
+      {
+        headers: { "Cache-Control": "no-cache" },
+      }
+    );
+    return response.data.success ? response.data.data : null;
+  } catch {
+    return null;
+  }
+});
+
+const getTestimonialsPageSettings = cache(async () => {
+  try {
+    const response = await axiosInstance.get(
+      "/api/testimonials-page-settings",
+      {
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+        },
+      }
+    );
+    return response.data?.success ? response.data.data : null;
+  } catch (error) {
+    console.error("Error fetching testimonials page settings:", error);
+    // Return null to use default fallback data in components
+    return null;
+  }
+});
+
+// Generate dynamic metadata
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSEO();
+
+  const title = seo?.metaTitle || DEFAULT_SEO.title;
+  const description = seo?.metaDescription || DEFAULT_SEO.description;
+  const keywords = seo?.keywords || DEFAULT_SEO.keywords;
+
+  return {
+    title,
+    description,
+    keywords: keywords.split(",").map((k) => k.trim()),
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      url: "https://truscomp.com/client-testimonials-compliance-client-testimonials",
+      siteName: "TrusComp",
+      images: seo?.ogImage
+        ? [{ url: seo.ogImage, width: 1200, height: 630 }]
+        : [],
     },
-    {
-      question:
-        "Can TrusComp handle industry-specific compliance requirements?",
-      answer:
-        "Yes, we specialize in providing customized compliance solutions across industries, from manufacturing to IT and beyond.",
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: seo?.ogImage ? [seo.ogImage] : [],
     },
-    {
-      question: "How does TrusComp ensure client satisfaction?",
-      answer:
-        "We prioritize transparency, proactive communication, and technology-driven efficiency to exceed client expectations consistently.",
+    alternates: {
+      canonical:
+        "https://truscomp.com/client-testimonials-compliance-client-testimonials",
     },
-    {
-      question: "Can I get references or case studies from your clients?",
-      answer:
-        "Yes, we're happy to share success stories and connect you with satisfied clients upon request.",
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-    {
-      question: "How can I start my compliance journey with TrusComp?",
-      answer:
-        "Simply Schedule a Free Consultation or Request a Demo to discuss your compliance needs with our experts.",
+  };
+}
+
+export default async function ClientTestimonialsPage() {
+  // Fetch data with error boundaries - this will use cached result from generateMetadata
+  let pageSettings = null;
+
+  try {
+    pageSettings = await getTestimonialsPageSettings();
+  } catch (error) {
+    console.error("Error fetching testimonials page data:", error);
+    // Continue with null data - components have fallbacks
+  }
+
+  // Structured Data for SEO (JSON-LD)
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Client Testimonials",
+    description: pageSettings?.hero?.description || DEFAULT_SEO.description,
+    url: "https://truscomp.com/client-testimonials-compliance-client-testimonials",
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement:
+        pageSettings?.testimonials?.reviews
+          ?.filter((r: { isActive?: boolean }) => r.isActive !== false)
+          .map(
+            (
+              review: {
+                name: string;
+                affiliation: string;
+                quote: string;
+                rating?: number;
+              },
+              index: number
+            ) => ({
+              "@type": "Review",
+              position: index + 1,
+              author: {
+                "@type": "Person",
+                name: review.name,
+                jobTitle: review.affiliation,
+              },
+              reviewBody: review.quote,
+              reviewRating: {
+                "@type": "Rating",
+                ratingValue: review.rating || 5,
+                bestRating: 5,
+              },
+            })
+          ) || [],
     },
-  ];
+  };
+
+  const breadcrumbData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://truscomp.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Client Testimonials",
+        item: "https://truscomp.com/client-testimonials-compliance-client-testimonials",
+      },
+    ],
+  };
 
   return (
-    <div className="w-full">
-      {/* Hero Section with AnimatedTestimonialGrid */}
-      <AnimatedTestimonialGrid
-        testimonials={testimonials}
-        badgeText="Testimonials"
-        title={
-          <>
-            Trusted by leaders
-            <br />
-            from various industries
-          </>
-        }
-        description="Learn why professionals trust our solutions to complete their customer journeys."
-        ctaText="Read Success Stories"
-        ctaHref="#testimonials"
+    <>
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
       />
 
-      {/* Testimonials Slider Section */}
-      <section className="py-24 bg-background" id="testimonials">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">
-              What Our Clients Say
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Real stories from businesses transformed by our compliance
-              solutions
-            </p>
-          </div>
-          <TestimonialSlider reviews={reviews} />
-        </div>
-      </section>
-
-      {/* Why Choose TrusComp Section */}
-      <WhyChooseTestimonials />
-
-      {/* FAQ Section using reusable FaqSection component */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <FaqSection
-            badge="FAQ'S"
-            title="Frequently Asked Questions"
-            subtitle=""
-            description="Find answers to common questions about our compliance services."
-            image="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=830&h=844&auto=format&fit=crop"
-            faqs={faqs}
-            layout="with-image"
-          />
-        </div>
-      </section>
-
-      {/* CTA Section using reusable CtaHero component */}
-      <CtaHero
-        badge="READY TO TRANSFORM?"
-        heading="Take the First Step"
-        description="Join the growing list of satisfied clients who trust TrusComp for their compliance needs. Start your seamless compliance journey today!"
-        buttons={[
-          {
-            text: "Schedule a Free Consultation",
-            href: "/contact",
-            variant: "secondary",
-          },
-          {
-            text: "Request a Demo",
-            href: "/contact",
-            variant: "outline",
-          },
-        ]}
-      />
-    </div>
+      <TestimonialsPageClient initialData={pageSettings} />
+    </>
   );
 }

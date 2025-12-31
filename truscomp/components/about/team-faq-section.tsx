@@ -37,7 +37,7 @@ interface TeamFaqSectionProps {
     subtitle?: string;
     description?: string;
     image?: string;
-    faqs?: Array<{
+    items?: Array<{
       question: string;
       answer: string;
     }>;
@@ -50,7 +50,7 @@ export default function TeamFaqSection({ data }: TeamFaqSectionProps) {
   const subtitle = data?.subtitle || "";
   const description = data?.description || "Questions about our team, leadership, and expertise.";
   const image = data?.image || "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=830&h=844&auto=format&fit=crop";
-  const faqs = data?.faqs || defaultFaqs;
+  const faqs = data?.items || defaultFaqs;
 
   return (
     <FaqComponent

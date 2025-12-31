@@ -37,6 +37,10 @@ interface ArchFaqSectionProps {
     subtitle?: string;
     description?: string;
     image?: string;
+    items?: Array<{
+      question: string;
+      answer: string;
+    }>;
     faqs?: Array<{
       question: string;
       answer: string;
@@ -48,9 +52,13 @@ export default function ArchFaqSection({ data }: ArchFaqSectionProps) {
   const badge = data?.badge || "FAQ'S";
   const title = data?.title || "Frequently Asked Questions";
   const subtitle = data?.subtitle || "";
-  const description = data?.description || "Common questions about our software architecture and technology platform";
-  const image = data?.image || "https://images.unsplash.com/photo-1516534775068-bb57e39c2d1b?q=80&w=830&h=844&auto=format&fit=crop";
-  const faqs = data?.faqs || defaultFaqs;
+  const description =
+    data?.description ||
+    "Common questions about our software architecture and technology platform";
+  const image =
+    data?.image ||
+    "https://images.unsplash.com/photo-1516534775068-bb57e39c2d1b?q=80&w=830&h=844&auto=format&fit=crop";
+  const faqs = data?.items || data?.faqs || defaultFaqs;
 
   return (
     <FaqComponent

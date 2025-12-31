@@ -37,7 +37,7 @@ interface VisionFAQSectionProps {
     subtitle?: string;
     description?: string;
     image?: string;
-    faqs?: Array<{
+    items?: Array<{
       question: string;
       answer: string;
     }>;
@@ -50,7 +50,7 @@ export default function VisionFAQSection({ data }: VisionFAQSectionProps) {
   const subtitle = data?.subtitle || "";
   const description = data?.description || "Common questions about our vision, mission, and values.";
   const image = data?.image || "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=830&h=844&auto=format&fit=crop";
-  const faqs = data?.faqs || defaultFaqs;
+  const faqs = data?.items || defaultFaqs;
 
   return (
     <FaqComponent

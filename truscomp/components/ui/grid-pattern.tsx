@@ -10,6 +10,7 @@ interface GridPatternProps {
   squares?: Array<[x: number, y: number]>;
   strokeDasharray?: string;
   className?: string;
+  id?: string; // Allow custom ID to prevent hydration issues
   [key: string]: unknown;
 }
 
@@ -21,9 +22,11 @@ function GridPattern({
   strokeDasharray = "0",
   squares,
   className,
+  id: customId,
   ...props
 }: GridPatternProps) {
-  const id = useId();
+  const generatedId = useId();
+  const id = customId || generatedId;
 
   return (
     <svg
@@ -42,6 +45,7 @@ function GridPattern({
           patternUnits="userSpaceOnUse"
           x={x}
           y={y}
+          suppressHydrationWarning
         >
           <path
             d={`M.5 ${height}V.5H${width}`}
@@ -50,7 +54,7 @@ function GridPattern({
           />
         </pattern>
       </defs>
-      <rect width="100%" height="100%" strokeWidth={0} fill={`url(#${id})`} />
+      <rect width="100%" height="100%" strokeWidth={0} fill={`url(#${id})`} suppressHydrationWarning />
       {squares && (
         <svg x={x} y={y} className="overflow-visible">
           {squares.map(([x, y]) => (

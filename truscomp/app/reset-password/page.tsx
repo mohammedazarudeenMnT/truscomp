@@ -91,7 +91,7 @@ export default function AdminResetPasswordPage() {
         toast.success("Password reset successfully!");
         setTimeout(() => {
           router.push("/login");
-        }, 3000);
+        }, 1000);
       } else {
         setError(response.data.message || "Failed to reset password");
         toast.error(response.data.message || "Failed to reset password");

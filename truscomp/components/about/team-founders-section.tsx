@@ -30,27 +30,28 @@ const defaultFounders = [
 
 interface TeamFoundersSectionProps {
     data?: {
-        foundersTitle?: string;
-        foundersSubtitle?: string;
-        founders?: Array<{
+        title?: string;
+        subtitle?: string;
+        members?: Array<{
             name: string;
-            role: string;
+            role?: string;
+            title?: string;
             bio: string;
             image: string;
-            linkedinUrl?: string;
+            linkedin?: string;
         }>;
     } | null;
 }
 
 export default function TeamFoundersSection({ data }: TeamFoundersSectionProps) {
-    const title = data?.foundersTitle || "Our Founders";
-    const subtitle = data?.foundersSubtitle || "Meet the visionary leaders driving TrusComp's success";
-    const founders = data?.founders?.map(f => ({
+    const title = data?.title || "Our Founders";
+    const subtitle = data?.subtitle || "Meet the visionary leaders driving TrusComp's success";
+    const founders = data?.members?.map(f => ({
         name: f.name,
-        title: f.role,
+        title: f.role || f.title || "Founder",
         bio: f.bio,
         image: f.image,
-        linkedin: f.linkedinUrl || "#",
+        linkedin: f.linkedin || "#",
     })) || defaultFounders;
     return (
         <section className="py-24 md:py-32 bg-muted/30">

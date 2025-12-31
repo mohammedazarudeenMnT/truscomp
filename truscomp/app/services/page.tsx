@@ -19,9 +19,12 @@ interface Service {
 }
 
 const DEFAULT_SEO = {
-  title: "Compliance Services | Labor Law & Factory Compliance Solutions | TrusComp",
-  description: "Explore TrusComp's comprehensive compliance services including labor law compliance, payroll management, factory audits, and contractor compliance solutions.",
-  keywords: "labor law compliance, factory compliance, contractor compliance, payroll compliance, compliance management",
+  title:
+    "Compliance Services | Labor Law & Factory Compliance Solutions | TrusComp",
+  description:
+    "Explore TrusComp's comprehensive compliance services including labor law compliance, payroll management, factory audits, and contractor compliance solutions.",
+  keywords:
+    "labor law compliance, factory compliance, contractor compliance, payroll compliance, compliance management",
 };
 
 interface PageSEO {
@@ -60,7 +63,9 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       url: "https://truscomp.com/services",
       siteName: "TrusComp",
-      images: seo?.ogImage ? [{ url: seo.ogImage, width: 1200, height: 630 }] : [],
+      images: seo?.ogImage
+        ? [{ url: seo.ogImage, width: 1200, height: 630 }]
+        : [],
     },
     twitter: {
       card: "summary_large_image",
@@ -109,7 +114,6 @@ async function getServicesPageSettings() {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
       },
-      timeout: 10000, // 10 second timeout
     });
     return response.data?.success ? response.data.data : null;
   } catch (error) {

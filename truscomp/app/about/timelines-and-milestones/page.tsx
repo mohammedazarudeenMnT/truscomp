@@ -84,10 +84,12 @@ export default async function TimelinesAndMilestonesPage() {
   let pageData = null;
 
   try {
-    const response = await axiosInstance.get("/api/about-page-settings/timelines-milestones", {
-      headers: { "Cache-Control": "no-cache, no-store, must-revalidate" },
-      timeout: 10000,
-    });
+    const response = await axiosInstance.get(
+      "/api/about-page-settings/timelines-milestones",
+      {
+        headers: { "Cache-Control": "no-cache, no-store, must-revalidate" },
+      }
+    );
     pageData = response.data?.success ? response.data.data : null;
   } catch (error) {
     console.error("Error fetching timelines page data:", error);
@@ -147,9 +149,9 @@ export default async function TimelinesAndMilestonesPage() {
 
       <main>
         <TimelineHeroSection data={pageData?.hero} />
-        <TimelinePhasesSection data={pageData?.phases} />
+        <TimelinePhasesSection data={pageData?.timeline} />
         <TimelineWhySection data={pageData?.why} />
-        <TimelineFaqSection data={pageData?.faqs} />
+        <TimelineFaqSection data={pageData?.faq} />
         <TimelineCtaSection data={pageData?.cta} />
       </main>
     </>

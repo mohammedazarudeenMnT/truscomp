@@ -113,117 +113,142 @@ export const WhyChooseSection: React.FC<WhyChooseSectionProps> = ({ data }) => {
   const sectionData = data || defaultData;
 
   return (
-    <section className="py-20 md:py-32 bg-muted/30 relative overflow-hidden">
-      {/* Grid Pattern Background */}
-      <GridPattern
-        width={50}
-        height={50}
-        x={-1}
-        y={-1}
-        squares={[
-          [3, 3],
-          [9, 5],
-          [15, 7],
-          [21, 9],
-          [27, 4],
-        ]}
-        className="absolute inset-0 h-full w-full opacity-15"
-      />
+    <section className="py-24 md:py-32 relative overflow-hidden bg-background">
+      {/* Background Refinements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <GridPattern
+          width={60}
+          height={60}
+          x={-1}
+          y={-1}
+          squares={[
+            [3, 3], [5, 5], [7, 7], [9, 9], [11, 11]
+          ]}
+          className="absolute inset-0 h-full w-full opacity-[0.05]"
+        />
+        <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-primary/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-[50%] h-[50%] bg-primary/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2" />
+      </div>
+
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
+        <div className="grid lg:grid-cols-5 gap-16 items-start mb-24">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="space-y-8"
+            className="lg:col-span-2 space-y-10"
           >
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground">
-              {sectionData.title}
-            </h2>
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            <div>
+             
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground leading-[1.1]">
+                {sectionData.title}
+              </h2>
+            </div>
+            
+            <p className="text-xl text-muted-foreground/80 leading-relaxed max-w-md">
               {sectionData.subtitle}
             </p>
 
-            <ul className="space-y-4">
+            <div className="grid gap-4">
               {[
                 "Industry-Leading Expertise",
                 "Tailored for Growth",
                 "Technology-Driven Efficiency",
               ].map((item, i) => (
-                <li
+                <motion.div
                   key={i}
-                  className="flex items-center gap-3 text-lg font-medium text-foreground/80"
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group flex items-center gap-4 p-4 rounded-2xl transition-all hover:bg-primary/5 border border-transparent hover:border-primary/10"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
-                  {item}
-                </li>
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
+                  </div>
+                  <span className="text-lg font-bold text-foreground/90 group-hover:text-primary transition-colors">
+                    {item}
+                  </span>
+                </motion.div>
               ))}
-            </ul>
+            </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="grid gap-6"
-          >
+          <div className="lg:col-span-3 grid md:grid-cols-2 gap-6">
             {sectionData.features.map((feature, index) => {
               const IconComponent = getIconComponent(feature.icon) || Shield;
               return (
-                <Feature
+                <motion.div
                   key={index}
-                  icon={<IconComponent className="size-5" />}
-                  title={feature.title}
-                  description={feature.description}
-                />
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="group relative p-8 rounded-[2rem] bg-card border shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2 transition-all group-hover:bg-primary/20" />
+                  
+                  <div className="relative z-10">
+                    <div className="inline-flex p-4 rounded-2xl bg-primary/5 text-primary mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 shadow-sm">
+                      <IconComponent className="size-6" />
+                    </div>
+                    <h3 className="text-xl font-black mb-4 text-foreground">{feature.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed text-sm font-medium">
+                      {feature.description}
+                    </p>
+                  </div>
+                </motion.div>
               );
             })}
-          </motion.div>
+          </div>
         </div>
 
-        {/* Stats Bento Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {/* Stats Bento Grid Refinement */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
           {sectionData.stats.map((stat, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={cn(
-                "flex flex-col items-center justify-center p-8 rounded-2xl border text-center transition-all hover:shadow-lg",
+                "relative group flex flex-col items-center justify-center p-10 rounded-[2.5rem] border overflow-hidden transition-all duration-500 hover:-translate-y-2",
                 stat.className
               )}
             >
-              <div className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="text-4xl md:text-5xl font-black text-foreground mb-3 tracking-tighter relative z-10">
                 {stat.number}
               </div>
-              <div className="text-sm font-medium text-muted-foreground">
+              <div className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground/60 relative z-10">
                 {stat.label}
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Trust Indicators */}
+        {/* High-End Trust Indicators */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-20 pt-10 border-t text-center"
+          className="mt-32 pt-16 border-t border-primary/10"
         >
-          <p className="text-muted-foreground mb-8 text-sm uppercase tracking-wider font-semibold">
-            Trusted by leading companies
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-            {sectionData.trustIndicators.map((company, i) => (
-              <span key={i} className="text-xl font-bold text-foreground/80">
-                {company}
-              </span>
-            ))}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+            <div className="text-left">
+              <p className="text-xs font-black uppercase tracking-[0.4em] text-muted-foreground mb-2">Our Network</p>
+              <h4 className="text-xl font-bold">Trusted by Industry Leaders</h4>
+            </div>
+            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20">
+              {sectionData.trustIndicators.map((company, i) => (
+                <span key={i} className="text-lg md:text-xl font-black text-foreground tracking-tighter hover:text-primary transition-colors cursor-default">
+                  {company}
+                </span>
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>

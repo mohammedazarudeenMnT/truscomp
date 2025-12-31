@@ -14,8 +14,10 @@ export const revalidate = 0;
 
 const DEFAULT_SEO = {
   title: "About TrusComp | Leading Compliance Solutions Provider",
-  description: "Learn about TrusComp's mission to transform regulatory adherence through innovation and expertise. Meet our team and discover our impact.",
-  keywords: "about truscomp, compliance company, labor law experts, compliance team, company history",
+  description:
+    "Learn about TrusComp's mission to transform regulatory adherence through innovation and expertise. Meet our team and discover our impact.",
+  keywords:
+    "about truscomp, compliance company, labor law experts, compliance team, company history",
 };
 
 interface PageSEO {
@@ -55,7 +57,9 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       url: "https://truscomp.com/about",
       siteName: "TrusComp",
-      images: seo?.ogImage ? [{ url: seo.ogImage, width: 1200, height: 630 }] : [],
+      images: seo?.ogImage
+        ? [{ url: seo.ogImage, width: 1200, height: 630 }]
+        : [],
     },
     twitter: {
       card: "summary_large_image",
@@ -80,7 +84,6 @@ export default async function AboutPage() {
   try {
     const response = await axiosInstance.get("/api/about-page-settings/about", {
       headers: { "Cache-Control": "no-cache, no-store, must-revalidate" },
-      timeout: 10000,
     });
     pageData = response.data?.success ? response.data.data : null;
   } catch (error) {
@@ -137,8 +140,8 @@ export default async function AboutPage() {
         <AboutHeroSection data={pageData?.hero} />
         <FoundersSection data={pageData?.founders} />
         <ImpactSection data={pageData?.impact} />
-        <WhyTrusCompSection data={pageData?.whyTruscomp} />
-        <FaqSection data={pageData?.faqs} />
+        <WhyTrusCompSection data={pageData?.whySection} />
+        <FaqSection data={pageData?.faq} />
         <AboutCtaSection data={pageData?.cta} />
       </main>
     </>

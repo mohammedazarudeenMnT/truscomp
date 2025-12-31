@@ -1,7 +1,5 @@
 import HomePageSettings from "../../models/content/HomePage.js";
-import {
-  uploadToCloudinary,
-} from "../../utils/cloudinaryHelper.js";
+import { uploadToCloudinary } from "../../utils/cloudinaryHelper.js";
 
 // Get home page settings
 export const getHomePageSettings = async (req, res) => {
@@ -16,56 +14,64 @@ export const getHomePageSettings = async (req, res) => {
             {
               title: "Welcome to TrusComp",
               text: "Comprehensive Compliance Solutions",
-              description: "Transforming regulatory adherence through innovation and expertise. Guided by Trust, Transparency, and Transformation.",
+              description:
+                "Transforming regulatory adherence through innovation and expertise. Guided by Trust, Transparency, and Transformation.",
               buttonText: "Get Started",
               buttonLink: "/contact",
-              img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop&crop=center"
-            }
-          ]
+              img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop&crop=center",
+            },
+          ],
         },
         whySection: {
           title: "Why Choose TrusComp?",
-          subtitle: "Choose TrusComp for effortless, future-ready compliance. Let us handle the complexity, so you can focus on growth!",
+          subtitle:
+            "Choose TrusComp for effortless, future-ready compliance. Let us handle the complexity, so you can focus on growth!",
           features: [
             {
               icon: "Shield",
               title: "Comprehensive Compliance",
-              description: "End-to-end management, risk assessments, and training programs tailored to your needs."
-            }
+              description:
+                "End-to-end management, risk assessments, and training programs tailored to your needs.",
+            },
           ],
           stats: [
             {
               number: "100+",
               label: "Trusted Clients",
-              className: "bg-primary/5 border-primary/10"
-            }
+              className: "bg-primary/5 border-primary/10",
+            },
           ],
-          trustIndicators: ["Amara Raja", "Blue Star", "Dr. Reddy's", "Ola Electric", "Reckitt Benckiser"]
+          trustIndicators: [
+            "Amara Raja",
+            "Blue Star",
+            "Dr. Reddy's",
+            "Ola Electric",
+            "Reckitt Benckiser",
+          ],
         },
         faq: {
           badge: "FAQ",
           title: "Frequently Asked Questions",
-          description: "Common questions about our compliance management solutions.",
+          description:
+            "Common questions about our compliance management solutions.",
           items: [
             {
-              question: "What is compliance management, and why is it important?",
-              answer: "Compliance management is the process of ensuring your organization adheres to all relevant laws, regulations, and industry standards."
-            }
-          ]
+              question:
+                "What is compliance management, and why is it important?",
+              answer:
+                "Compliance management is the process of ensuring your organization adheres to all relevant laws, regulations, and industry standards.",
+            },
+          ],
         },
         cta: {
-          badge: "Ready to Get Started?",
-          heading: "Transform Your Compliance Journey Today",
-          description: "Join hundreds of businesses that trust TrusComp for seamless, automated compliance management.",
-          buttons: [
-            {
-              text: "Get Started Now",
-              href: "/contact",
-              variant: "secondary",
-              icon: "ArrowRight"
-            }
-          ]
-        }
+          imageSrc: "/images/cta-compliance.jpg",
+          title: "Ready to Get Started?",
+          subtitle: "Transform Your Compliance Journey Today",
+          description:
+            "Join hundreds of businesses that trust TrusComp for seamless, automated compliance management. Start your transformation with our expert solutions.",
+          buttonText: "Get Started Now",
+          buttonLink: "/contact",
+        },
       });
     }
 
@@ -99,7 +105,10 @@ export const updateHero = async (req, res) => {
         const section = sections[i];
         if (section.imageFile) {
           try {
-            const result = await uploadToCloudinary(section.imageFile, "home-hero");
+            const result = await uploadToCloudinary(
+              section.imageFile,
+              "home-hero"
+            );
             section.img = result.secure_url;
             delete section.imageFile;
           } catch (uploadError) {
@@ -213,7 +222,8 @@ export const updateFaq = async (req, res) => {
 // Update CTA section
 export const updateCta = async (req, res) => {
   try {
-    const { badge, heading, description, buttons, isDark } = req.body;
+    const { imageSrc, title, subtitle, description, buttonText, buttonLink } =
+      req.body;
 
     let settings = await HomePageSettings.findOne();
     if (!settings) {
@@ -221,11 +231,12 @@ export const updateCta = async (req, res) => {
     }
 
     settings.cta = {
-      badge,
-      heading,
+      imageSrc,
+      title,
+      subtitle,
       description,
-      buttons: buttons || [],
-      isDark: isDark !== undefined ? isDark : true,
+      buttonText,
+      buttonLink,
     };
 
     await settings.save();

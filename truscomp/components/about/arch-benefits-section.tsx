@@ -28,8 +28,14 @@ const defaultBenefits = [
 
 interface ArchBenefitsSectionProps {
   data?: {
+    title?: string;
     benefitsTitle?: string;
+    subtitle?: string;
     benefitsSubtitle?: string;
+    items?: Array<{
+      title: string;
+      description: string;
+    }>;
     benefits?: Array<{
       title: string;
       description: string;
@@ -37,10 +43,16 @@ interface ArchBenefitsSectionProps {
   } | null;
 }
 
-export default function ArchBenefitsSection({ data }: ArchBenefitsSectionProps) {
-  const title = data?.benefitsTitle || "Benefits of Our Technology";
-  const subtitle = data?.benefitsSubtitle || "Discover how our advanced software architecture delivers tangible value to your business";
-  const benefits = data?.benefits || defaultBenefits;
+export default function ArchBenefitsSection({
+  data,
+}: ArchBenefitsSectionProps) {
+  const title =
+    data?.title || data?.benefitsTitle || "Benefits of Our Technology";
+  const subtitle =
+    data?.subtitle ||
+    data?.benefitsSubtitle ||
+    "Discover how our advanced software architecture delivers tangible value to your business";
+  const benefits = data?.items || data?.benefits || defaultBenefits;
   return (
     <section className="py-24 md:py-32 bg-muted/30 relative overflow-hidden">
       {/* Grid Pattern Background */}

@@ -6,23 +6,29 @@ import { GridPattern } from "@/components/ui/grid-pattern";
 
 interface VisionMissionSectionProps {
   data?: {
-    visionTitle?: string;
-    visionContent?: string;
-    visionImage?: string;
-    missionTitle?: string;
-    missionContent?: string;
-    missionImage?: string;
+    vision?: {
+      badge?: string;
+      title?: string;
+      description?: string;
+      image?: string;
+    };
+    mission?: {
+      badge?: string;
+      title?: string;
+      description?: string;
+      image?: string;
+    };
   } | null;
 }
 
 export default function VisionMissionSection({ data }: VisionMissionSectionProps) {
-  const visionTitle = data?.visionTitle || "Transforming Compliance Management";
-  const visionContent = data?.visionContent || "To be the leading force in transforming compliance management in India, enabling organizations to achieve regulatory excellence effortlessly. We aim to set new benchmarks for ethical business practices across industries, fostering trust, transparency, and innovation.";
-  const visionImage = data?.visionImage || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop";
+  const visionTitle = data?.vision?.title || "Transforming Compliance Management";
+  const visionContent = data?.vision?.description || "To be the leading force in transforming compliance management in India, enabling organizations to achieve regulatory excellence effortlessly. We aim to set new benchmarks for ethical business practices across industries, fostering trust, transparency, and innovation.";
+  const visionImage = data?.vision?.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop";
   
-  const missionTitle = data?.missionTitle || "Empowering Business Growth";
-  const missionContent = data?.missionContent || "To empower businesses with innovative compliance solutions that simplify regulatory adherence and enhance operational efficiency. We strive to enable organizations to focus on growth with complete trust in their compliance.";
-  const missionImage = data?.missionImage || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop";
+  const missionTitle = data?.mission?.title || "Empowering Business Growth";
+  const missionContent = data?.mission?.description || "To empower businesses with innovative compliance solutions that simplify regulatory adherence and enhance operational efficiency. We strive to enable organizations to focus on growth with complete trust in their compliance.";
+  const missionImage = data?.mission?.image || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop";
 
   return (
     <section className="py-20 lg:py-32 bg-background overflow-hidden relative">
@@ -46,10 +52,11 @@ export default function VisionMissionSection({ data }: VisionMissionSectionProps
           {/* Vision Block */}
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="w-full md:w-1/2 relative aspect-video rounded-2xl overflow-hidden shadow-2xl rotate-1 hover:rotate-0 transition-transform duration-500">
-              <img
+              <Image
                 src={visionImage}
                 alt="Vision"
-                className="object-cover w-full h-full"
+                fill
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-primary/10 mix-blend-multiply" />
             </div>
@@ -69,10 +76,11 @@ export default function VisionMissionSection({ data }: VisionMissionSectionProps
           {/* Mission Block */}
           <div className="flex flex-col md:flex-row-reverse items-center gap-12">
             <div className="w-full md:w-1/2 relative aspect-video rounded-2xl overflow-hidden shadow-2xl -rotate-1 hover:rotate-0 transition-transform duration-500">
-              <img
+              <Image
                 src={missionImage}
                 alt="Mission"
-                className="object-cover w-full h-full"
+                fill
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-secondary/10 mix-blend-multiply" />
             </div>

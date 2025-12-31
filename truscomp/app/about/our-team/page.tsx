@@ -14,8 +14,10 @@ export const revalidate = 0;
 
 const DEFAULT_SEO = {
   title: "Our Team | Meet the TrusComp Leadership & Experts",
-  description: "Meet the passionate professionals behind TrusComp's success. Learn about our leadership team and compliance experts.",
-  keywords: "truscomp team, compliance experts, leadership team, company founders, management team",
+  description:
+    "Meet the passionate professionals behind TrusComp's success. Learn about our leadership team and compliance experts.",
+  keywords:
+    "truscomp team, compliance experts, leadership team, company founders, management team",
 };
 
 interface PageSEO {
@@ -55,7 +57,9 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       url: "https://truscomp.com/about/our-team",
       siteName: "TrusComp",
-      images: seo?.ogImage ? [{ url: seo.ogImage, width: 1200, height: 630 }] : [],
+      images: seo?.ogImage
+        ? [{ url: seo.ogImage, width: 1200, height: 630 }]
+        : [],
     },
     twitter: {
       card: "summary_large_image",
@@ -78,10 +82,12 @@ export default async function OurTeamPage() {
   let pageData = null;
 
   try {
-    const response = await axiosInstance.get("/api/about-page-settings/our-team", {
-      headers: { "Cache-Control": "no-cache, no-store, must-revalidate" },
-      timeout: 10000,
-    });
+    const response = await axiosInstance.get(
+      "/api/about-page-settings/our-team",
+      {
+        headers: { "Cache-Control": "no-cache, no-store, must-revalidate" },
+      }
+    );
     pageData = response.data?.success ? response.data.data : null;
   } catch (error) {
     console.error("Error fetching our team page data:", error);
@@ -144,7 +150,7 @@ export default async function OurTeamPage() {
         <TeamFoundersSection data={pageData?.founders} />
         <TeamLeadershipSection data={pageData?.leadership} />
         <TeamLegacySection data={pageData?.legacy} />
-        <TeamFaqSection data={pageData?.faqs} />
+        <TeamFaqSection data={pageData?.faq} />
         <TeamCtaSection data={pageData?.cta} />
       </main>
     </>

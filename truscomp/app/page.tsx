@@ -10,9 +10,12 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 const DEFAULT_SEO = {
-  title: "TrusComp | Comprehensive Compliance Solutions | Labor Law & Factory Compliance",
-  description: "Transforming regulatory adherence through innovation and expertise. Trusted by 100+ companies for comprehensive compliance management solutions.",
-  keywords: "compliance management, labor law compliance, factory compliance, regulatory compliance, TrusComp",
+  title:
+    "TrusComp | Comprehensive Compliance Solutions | Labor Law & Factory Compliance",
+  description:
+    "Transforming regulatory adherence through innovation and expertise. Trusted by 100+ companies for comprehensive compliance management solutions.",
+  keywords:
+    "compliance management, labor law compliance, factory compliance, regulatory compliance, TrusComp",
 };
 
 interface PageSEO {
@@ -40,7 +43,6 @@ const getHomePageSettings = cache(async () => {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
       },
-      timeout: 10000,
     });
     return response.data?.success ? response.data.data : null;
   } catch (error) {
@@ -68,7 +70,9 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       url: "https://truscomp.com",
       siteName: "TrusComp",
-      images: seo?.ogImage ? [{ url: seo.ogImage, width: 1200, height: 630 }] : [],
+      images: seo?.ogImage
+        ? [{ url: seo.ogImage, width: 1200, height: 630 }]
+        : [],
     },
     twitter: {
       card: "summary_large_image",
@@ -109,7 +113,8 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "TrusComp",
-    description: pageSettings?.hero?.sections?.[0]?.description || DEFAULT_SEO.description,
+    description:
+      pageSettings?.hero?.sections?.[0]?.description || DEFAULT_SEO.description,
     url: "https://truscomp.com",
     logo: "https://truscomp.com/logo.png",
     contactPoint: {
@@ -148,7 +153,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
       />
-      
+
       <HomePage initialData={pageSettings} />
     </>
   );

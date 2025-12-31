@@ -29,9 +29,10 @@ const defaultLeadership = [
 
 interface TeamLeadershipSectionProps {
   data?: {
-    leadershipTitle?: string;
-    leadershipSubtitle?: string;
-    leadership?: Array<{
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    members?: Array<{
       name: string;
       role: string;
       bio: string;
@@ -41,9 +42,9 @@ interface TeamLeadershipSectionProps {
 }
 
 export default function TeamLeadershipSection({ data }: TeamLeadershipSectionProps) {
-  const title = data?.leadershipTitle || "Our Leadership Team";
-  const subtitle = data?.leadershipSubtitle || "Experienced professionals driving excellence in compliance management";
-  const leadership = data?.leadership || defaultLeadership;
+  const title = data?.title || "Our Leadership Team";
+  const subtitle = data?.subtitle || "Experienced professionals driving excellence in compliance management";
+  const leadership = data?.members || defaultLeadership;
   return (
     <section className="py-24 md:py-32 bg-background relative overflow-hidden">
       {/* Grid Pattern Background */}

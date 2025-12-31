@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef, useLayoutEffect, useState, useEffect } from "react";
-import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -24,10 +23,6 @@ interface ServicesHeroSectionProps {
 export default function ServicesHeroSection({
   pageSettings,
 }: ServicesHeroSectionProps) {
-  const container = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const buttonsRef = useRef<HTMLDivElement>(null);
   const [backgroundImage, setBackgroundImage] = useState<string>("");
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -91,76 +86,8 @@ export default function ServicesHeroSection({
     loadImage();
   }, [pageSettings?.hero?.backgroundImage]);
 
-  useGSAP(
-    () => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      // Animate title sliding up and fading in
-      tl.fromTo(
-        titleRef.current,
-        {
-          y: 60,
-          opacity: 0,
-          scale: 0.95,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1,
-          force3D: true,
-        }
-      );
-
-      // Animate subtitle fading in with delay
-      tl.fromTo(
-        subtitleRef.current,
-        {
-          y: 40,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          force3D: true,
-        },
-        "-=0.5"
-      );
-
-      // Animate buttons appearing from bottom
-      tl.fromTo(
-        buttonsRef.current,
-        {
-          y: 30,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          force3D: true,
-        },
-        "-=0.4"
-      );
-    },
-    { scope: container }
-  );
-
-  // Cleanup on unmount
-  useLayoutEffect(() => {
-    const title = titleRef.current;
-    const subtitle = subtitleRef.current;
-    const buttons = buttonsRef.current;
-
-    return () => {
-      gsap.killTweensOf([title, subtitle, buttons]);
-    };
-  }, []);
-
   return (
     <section
-      ref={container}
       className={cn(
         "relative flex min-h-[600px] md:min-h-[700px] w-full items-center justify-center overflow-hidden"
       )}
@@ -194,24 +121,30 @@ export default function ServicesHeroSection({
       {/* Content Container */}
       <div className="z-20 flex max-w-5xl flex-col items-center justify-center text-center text-white px-4 md:px-6 py-20">
         {/* Animated Title */}
-        <h1
-          ref={titleRef}
+        <motion.h1
+          initial={{ y: 60, opacity: 0, scale: 0.95 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
           className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
         >
           {pageSettings?.hero?.title}
-        </h1>
+        </motion.h1>
 
         {/* Animated Subtitle */}
-        <p
-          ref={subtitleRef}
+        <motion.p
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
           className="mt-6 max-w-3xl text-lg leading-8 md:text-xl text-white/90"
         >
           {pageSettings?.hero?.subtitle}
-        </p>
+        </motion.p>
 
         {/* Animated Button Group */}
-        <div
-          ref={buttonsRef}
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
           className="mt-10 flex flex-col sm:flex-row items-center gap-4"
         >
           <Button asChild size="lg" className="text-base px-8">
@@ -229,7 +162,7 @@ export default function ServicesHeroSection({
               {pageSettings?.hero?.secondaryButtonText}
             </Link>
           </Button>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

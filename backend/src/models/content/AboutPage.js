@@ -15,15 +15,15 @@ const aboutPageSettingsSchema = new mongoose.Schema(
 
     // Hero Section (ParallaxHero for sub-pages, custom for main about)
     hero: {
-      // For main about page
+      // For main about page (legacy format)
       badge: {
         type: String,
         default: "About TrusComp",
       },
       title: {
         type: String,
-        required: true,
-        default: "Who We Are",
+        required: false, // Not required anymore - use heading for subpages
+        default: "",
       },
       description: {
         type: String,
@@ -62,7 +62,7 @@ const aboutPageSettingsSchema = new mongoose.Schema(
         type: String,
         default: "Trusted by Industry Leaders",
       },
-      // For sub-pages (ParallaxHero)
+      // For sub-pages (ParallaxHero) - new format
       backgroundImage: {
         type: String,
         default: "",

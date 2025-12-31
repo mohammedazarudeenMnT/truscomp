@@ -11,13 +11,13 @@ import { seedSettings } from "./utils/seedSettings.js";
 // import { seedSampleUsers } from "./utils/seedSampleUsers.js";
 // import { rebuildAllLegArrays } from "./utils/updateLegArrays.js";
 import registerRoutes from "./routes/index.js";
-import { 
-  apiLimiter, 
-  authLimiter, 
-  securityHeaders, 
+import {
+  apiLimiter,
+  authLimiter,
+  securityHeaders,
   protectAllAPIs,
   addSecurityHeaders,
-  sanitizeHeaders
+  sanitizeHeaders,
 } from "./middleware/security.middleware.js";
 
 // Load environment variables
@@ -30,20 +30,26 @@ const PORT = process.env.PORT || 5000;
 app.use(securityHeaders);
 
 // CORS configuration - dynamic based on environment
-const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? [process.env.FRONTEND_URL]
-  : [process.env.FRONTEND_URL, "https://kk5n0x75-3000.inc1.devtunnels.ms", "http://localhost:3000", "http://localhost:5000"];
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? [process.env.FRONTEND_URL]
+    : [
+        process.env.FRONTEND_URL,
+        "https://kk5n0x75-3000.inc1.devtunnels.ms",
+        "https://kk5n0x75-3001.inc1.devtunnels.ms",
+        "http://localhost:5000",
+      ];
 
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (mobile apps, Postman, etc.)
       if (!origin) return callback(null, true);
-      
+
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
@@ -53,15 +59,18 @@ app.use(
 // Request logging middleware
 app.use((req, res, next) => {
   const start = Date.now();
-  
+
   // Log when response finishes
-  res.on('finish', () => {
+  res.on("finish", () => {
     const duration = Date.now() - start;
-    const statusColor = res.statusCode >= 500 ? '🔴' : res.statusCode >= 400 ? '🟡' : '🟢';
+    const statusColor =
+      res.statusCode >= 500 ? "🔴" : res.statusCode >= 400 ? "🟡" : "🟢";
     const path = req.originalUrl || req.url;
-    console.log(`${statusColor} ${res.statusCode} ${req.method} ${path} - ${duration}ms`);
+    console.log(
+      `${statusColor} ${res.statusCode} ${req.method} ${path} - ${duration}ms`
+    );
   });
-  
+
   next();
 });
 
@@ -76,10 +85,10 @@ app.use(sanitizeHeaders);
 app.use(addSecurityHeaders);
 
 // Apply rate limiting to all API routes
-app.use('/api/', apiLimiter);
+app.use("/api/", apiLimiter);
 
 // Stricter rate limiting for auth routes
-app.use('/api/auth/', authLimiter);
+app.use("/api/auth/", authLimiter);
 
 // Global API protection - ensures no public access
 app.use(protectAllAPIs);
@@ -109,7 +118,7 @@ app.use((req, res) => {
   res.status(404).json({
     success: false,
     message: "Route not found",
-    path: req.originalUrl
+    path: req.originalUrl,
   });
 });
 
