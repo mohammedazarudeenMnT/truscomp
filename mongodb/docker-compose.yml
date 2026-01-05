@@ -1,9 +1,9 @@
 services:
     
   # MongoDB
-  mongodb:
+  mongodbtruscomp:
     image: mongo:latest
-    container_name: mongodb
+    container_name: mongodbtruscomp
     ports:
       - "27018:27017"
     environment:
